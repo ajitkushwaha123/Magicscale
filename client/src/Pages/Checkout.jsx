@@ -445,7 +445,7 @@ const Checkout = () => {
       const dropConfig = {
         layout: "POPUP",
         paymentSessionId: data.payment_session_id, // ✅ Corrected
-        returnUrl: `http://localhost:5173/payment-success`,
+        returnUrl: `https://magicscale.in//payment-success`,
         redirectTarget: "_self",
       };
 
