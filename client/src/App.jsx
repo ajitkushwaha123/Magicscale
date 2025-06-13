@@ -6,7 +6,7 @@ import "./App.css";
 import ShippingPolicy from "./components/ShippingPolicy";
 import PrivacyPolicies from "./components/PrivacyPolicies";
 import Terms from "./components/Terms";
-import Checkout from "./pages/Checkout";
+import Checkout from "./Pages/Checkout";
 
 function App() {
   const [count, setCount] = useState(0);
