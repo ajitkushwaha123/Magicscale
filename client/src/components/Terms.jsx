@@ -18,6 +18,7 @@ const terms = [
       - Transfer the materials to another person or “mirror” the materials on any other server.<br><br>
       Violation of these restrictions may result in termination of your access rights by MagicScale. Upon termination, any downloaded materials in your possession, whether in printed or electronic format, must be destroyed.
     `,
+    
   },
   {
     title: "Disclaimer",
