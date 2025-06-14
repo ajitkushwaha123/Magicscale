@@ -626,24 +626,24 @@ const Checkout = () => {
   const [formData, setFormData] = useState({ name: "", email: "", phone: "", address: "" });
   const [sdkLoaded, setSdkLoaded] = useState(false);
 
-  useEffect(() => {
-    const script = document.createElement("script");
-    script.src = "https://sdk.cashfree.com/js/v3/cashfree.js";
-    script.async = true;
-    script.onload = () => {
-      if (window.Cashfree) {
-        setSdkLoaded(true);
-        console.log("✅ Cashfree SDK loaded successfully.");
-      } else {
-        console.error("⚠️ Cashfree SDK loaded but not available.");
-      }
-    };
-    script.onerror = () => {
-      console.error("❌ Failed to load Cashfree SDK.");
-    };
-    document.body.appendChild(script);
-    return () => document.body.removeChild(script);
-  }, []);
+useEffect(() => {
+  const script = document.createElement("script");
+  script.src = "https://sdk.cashfree.com/js/ui/3.0.0/cashfree-ui.js";
+  script.async = true;
+  script.onload = () => {
+    if (window.Cashfree) {
+      setSdkLoaded(true);
+      console.log("✅ Cashfree SDK loaded successfully.");
+    } else {
+      console.error("⚠️ Cashfree SDK loaded but not available.");
+    }
+  };
+  script.onerror = () => {
+    console.error("❌ Failed to load Cashfree SDK.");
+  };
+  document.body.appendChild(script);
+  return () => document.body.removeChild(script);
+}, []);
 
   const plan = planData[id];
   if (!plan) {
@@ -694,6 +694,7 @@ const Checkout = () => {
         paymentSessionId: data.payment_session_id,
         redirectTarget: "_self",
         returnUrl: `https://magicscale.in/payment-success?order_id={order_id}`,
+         container: "#cashfree-dropin",
       });
 
     } catch (err) {
