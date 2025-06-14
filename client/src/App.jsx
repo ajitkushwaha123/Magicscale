@@ -21,10 +21,11 @@ function App() {
         <Route path="/privacy-policy" element={<PrivacyPolicies />} />
         <Route path="/terms-and-condition" element={<Terms />} />
         <Route path="/checkout/:id" element={<Checkout />} /> 
-          <Route path="/payment-success" element={<PaymentSuccess />} />
+          <Route path="/Payment-success" element={<PaymentSuccess />} />
       </Routes>
     </div>
   );
 }
 
 export default App;
+//hlo
