@@ -7,6 +7,7 @@ import ShippingPolicy from "./components/ShippingPolicy";
 import PrivacyPolicies from "./components/PrivacyPolicies";
 import Terms from "./components/Terms";
 import Checkout from "./Pages/Checkout";
+import PaymentSuccess from "./pages/PaymentSuccess/PaymentSuccess"; 
 
 function App() {
   const [count, setCount] = useState(0);
@@ -20,6 +21,7 @@ function App() {
         <Route path="/privacy-policy" element={<PrivacyPolicies />} />
         <Route path="/terms-and-condition" element={<Terms />} />
         <Route path="/checkout/:id" element={<Checkout />} /> 
+          <Route path="/payment-success" element={<PaymentSuccess />} />
       </Routes>
     </div>
   );
