@@ -1,8 +1,15 @@
 
-// routes cashfreeRoutes.js
+
+
+
+
+
+
+// routes/cashfreeRoutes.js
 import express from "express";
 import axios from "axios";
 import dotenv from "dotenv";
+
 dotenv.config();
 
 const router = express.Router();
@@ -10,7 +17,6 @@ const router = express.Router();
 router.post("/initiate-payment", async (req, res) => {
   const { name, email, phone, amount } = req.body;
   const orderId = "ORD_" + Date.now();
-  const customerId = "cust_" + Date.now(); // ✅ safe alphanumeric ID
 
   try {
     const response = await axios.post(
@@ -20,7 +26,7 @@ router.post("/initiate-payment", async (req, res) => {
         order_amount: amount,
         order_currency: "INR",
         customer_details: {
-          customer_id: customerId, // ✅ fixed invalid value
+          customer_id: email.replace(/[^a-zA-Z0-9_-]/g, "_"), // ✅ valid ID
           customer_name: name,
           customer_email: email,
           customer_phone: phone
@@ -55,3 +61,7 @@ router.post("/initiate-payment", async (req, res) => {
 });
 
 export default router;
+
+
+
+
