@@ -343,7 +343,7 @@ const API_BASE = "https://magicscale-backend.onrender.com";
 const planData = {
   "plan-basic": {
     name: "Basic Growth Plan",
-    price: 7999,
+    price: 1,
     features: [
       "Menu Score Update",
       "Customer Review Management",
@@ -355,7 +355,7 @@ const planData = {
   },
   "plan-premium": {
     name: "Premium Growth Plan",
-    price: 9999,
+    price: 1,
     features: [
       "All Basic Features",
       "Dedicated Account Manager",

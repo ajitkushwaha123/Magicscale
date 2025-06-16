@@ -13,28 +13,32 @@ const services = [
     description:
       "Efficient bookkeeping and account management tailored for F&B businesses.",
     icon: <Briefcase className="h-8 w-8 text-indigo-500" />,
-    price: "₹1,999/month",
+    // price: "₹1,999/month",
+    price: "₹1/month",
   },
   {
     title: "Swiggy & Zomato Setup",
     description:
       "Get listed on top food delivery platforms with complete setup and support.",
     icon: <UtensilsCrossed className="h-8 w-8 text-orange-500" />,
-    price: "₹4,999 one-time",
+    // price: "₹4,999 one-time",
+     price: "₹1 one-time",
   },
   {
     title: "GST Registration & Filing",
     description:
       "Complete assistance with GST registration and timely filing of returns.",
     icon: <FileText className="h-8 w-8 text-emerald-500" />,
-    price: "From ₹2,499",
+    // price: "From ₹2,499",
+     price: "From ₹1",
   },
   {
     title: "FSSAI Registration",
     description:
       "Ensure food safety compliance with fast and reliable FSSAI registration.",
     icon: <ShieldCheck className="h-8 w-8 text-blue-500" />,
-    price: "₹1,299 one-time",
+    //price: "₹1,299 one-time",
+    price: "₹1 one-time",
   },
 ];
 
