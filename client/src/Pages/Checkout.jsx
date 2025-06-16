@@ -340,10 +340,37 @@ import { useParams } from "react-router-dom";
 const API_BASE = "https://magicscale-backend.onrender.com";
 //const API_BASE = "http://localhost:5000";
 
+// const planData = {
+//   "plan-basic": {
+//     name: "Basic Growth Plan",
+//     price: 7999,
+//     features: [
+//       "Menu Score Update",
+//       "Customer Review Management",
+//       "Weekly Consultant Calls",
+//       "Menu Optimization",
+//       "Basic Promotion Strategy",
+//     ],
+//     badge: "Recommended for Startups",
+//   },
+//   "plan-premium": {
+//     name: "Premium Growth Plan",
+//     price: 999,
+//     features: [
+//       "All Basic Features",
+//       "Dedicated Account Manager",
+//       "Festival-Specific Promotions",
+//       "Zomato & Swiggy Ad Campaigns",
+//       "Advanced Analytics Dashboard",
+//     ],
+//     badge: "Best for Growing Brands",
+//   },
+// };
+
 const planData = {
   "plan-basic": {
     name: "Basic Growth Plan",
-    price: 1,
+    price: 1, // changed from 7999
     features: [
       "Menu Score Update",
       "Customer Review Management",
@@ -355,7 +382,7 @@ const planData = {
   },
   "plan-premium": {
     name: "Premium Growth Plan",
-    price: 1,
+    price: 1, // changed from 9999
     features: [
       "All Basic Features",
       "Dedicated Account Manager",
