@@ -6,9 +6,10 @@ import "./App.css";
 import ShippingPolicy from "./components/ShippingPolicy";
 import PrivacyPolicies from "./components/PrivacyPolicies";
 import HomeWork from "./components/HomeWork";
-import Work from "./components/work";
+import Work from "./components/Work";
 import Terms from "./components/Terms";
 import Checkout from "./Pages/Checkout";
+
 // import Services from "./components/work";
 import PaymentSuccess from "./Pages/PaymentSuccess/PaymentSuccess"; 
 
@@ -21,6 +22,7 @@ function App() {
         <Route path="/" element={<Home />} />
          <Route path="/" element={<HomeWork />} />
           <Route path="/Services" element={<Work />} />
+          
 
         <Route path="/return-policy" element={<ReturnPolicy />} />
         <Route path="/shipping-policy" element={<ShippingPolicy />} />
