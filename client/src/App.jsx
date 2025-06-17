@@ -19,8 +19,8 @@ function App() {
     <div>
       <Routes>
         <Route path="/" element={<Home />} />
-         {/* <Route path="/" element={<HomeWork />} /> */}
-          {/* <Route path="/Services" element={<Work />} /> */}
+         {/* <Route path="/" element={<HomeWork />} />
+          <Route path="/Services" element={<Work />} /> */}
 
         <Route path="/return-policy" element={<ReturnPolicy />} />
         <Route path="/shipping-policy" element={<ShippingPolicy />} />
