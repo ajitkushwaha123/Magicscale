@@ -7,6 +7,8 @@ import Contact from "../components/Contact";
 import About from "../components/About";
 import Footer from "../components/Footer";
 import Video from "../components/Video";
+import HomeWork from "../components/HomeWork";
+// import Work from "../components/Work";
 import Pricing from "../components/Pricing";
 
 const Home = () => {
@@ -15,6 +17,7 @@ const Home = () => {
       <Header />
       <Hero />
       <Video />
+      <HomeWork />
       <Pricing />
       {/* <Services /> */}
       {/* <Testimonial /> */}
