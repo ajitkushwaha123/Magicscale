@@ -6,7 +6,7 @@ import "./App.css";
 import ShippingPolicy from "./components/ShippingPolicy";
 import PrivacyPolicies from "./components/PrivacyPolicies";
 import HomeWork from "./components/HomeWork";
-import Work from "./components/Work";
+import Work from "./components/work";
 import Terms from "./components/Terms";
 import Checkout from "./Pages/Checkout";
 
