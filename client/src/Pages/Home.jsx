@@ -1,7 +1,7 @@
 import React from "react";
 import Header from "../components/Header";
 import Hero from "../components/Hero";
-import Services from "../components/Services";
+// import Services from "../components/Services";
 import Testimonial from "../components/Testimonial";
 import Contact from "../components/Contact";
 import About from "../components/About";
