@@ -7,7 +7,7 @@ import bcrypt from 'bcrypt';
 // import crypto from 'crypto';
 import dotenv from "dotenv";
 // import { Cashfree } from 'cashfree-pg';
-import planRoutes from './routes/Plan.js';
+import PlanRoutes from "./routes/plan.js";
 
  
 
@@ -39,7 +39,7 @@ app.use(cors({
 app.use(express.json());
 
 // Routes
-app.use("/api/plan", planRoutes);
+app.use("/api/plan", PlanRoutes);
 app.use('/api/admin', adminAuthConfig);
 
 
