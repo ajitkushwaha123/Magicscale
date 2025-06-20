@@ -17,9 +17,14 @@ import ForgotPassword from './components/Login/ForgotPassword/ForgotPassword';
 import ResetPassword from './components/Login/ResetPassword/ResetPassword';
 import Signup from './components/Signup/Signup';
 import ProtectedRoute from './components/ProtectedRoute'; 
+import PhoneOTPLogin from './components/PhoneOTPLogin';
+import ZomatoCoursePage from    './pages/depthcard/CoursePage/ZomatoCoursePage'; 
+
+
+
+
 
 // import Services from "./components/work";
-import PaymentSuccess from "./Pages/PaymentSuccess/PaymentSuccess"; 
 
 function App() {
   const [count, setCount] = useState(0);
@@ -29,7 +34,9 @@ function App() {
       <Routes>
         <Route path="/" element={<Home />} />
          <Route path="/" element={<HomeWork />} />
-         <Route path="/services/zomato" element={<ZomatoDetails />} />
+         
+         <Route path="/course/zomato-onboarding" element={<ZomatoCoursePage />} />
+          <Route path="/services/zomato" element={<ZomatoDetails />} />
         <Route path="/services/swiggy" element={<SwiggyDetails />} />
         <Route path="/services/fssai" element={<FssaiDetails />} />
           <Route path="/Services" element={<Work />} />
@@ -42,6 +49,8 @@ function App() {
         <Route path="/shipping-policy" element={<ShippingPolicy />} />
         <Route path="/privacy-policy" element={<PrivacyPolicies />} />
         <Route path="/terms-and-condition" element={<Terms />} />
+        <Route path="/login-phone" element={<PhoneOTPLogin />} />
+
         {/* <Route path="/checkout/:id" element={<Checkout />} />  */}
 
 
@@ -53,9 +62,6 @@ function App() {
     </ProtectedRoute>
   }
 /> 
-
-
-          <Route path="/payment-success" element={<PaymentSuccess />} />
       </Routes>
     </div>
   );

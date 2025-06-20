@@ -33,31 +33,76 @@
 // export default PaymentSuccess;
 
 
-import React from "react";
-import { Link } from "react-router-dom";
-import Footer from "../../components/Footer";
- // Update the path if needed
+// import React from "react";
+// import { Link } from "react-router-dom";
+// import Footer from "../../components/Footer";
+//  // Update the path if needed
+
+// const PaymentSuccess = () => {
+//   return (
+//     <div className="flex flex-col min-h-screen bg-gradient-to-b from-green-50 to-white">
+//       <div className="flex-grow flex items-center justify-center p-6">
+//         <div className="bg-white p-10 rounded-xl shadow-lg text-center max-w-md w-full">
+//           <h1 className="text-3xl font-bold text-green-600 mb-4">Return to Home!</h1>
+//           <p className="text-gray-700 mb-6">
+//             {/* Thank you for your purchase. Your transaction has been completed successfully. */}
+//             click below to return home page
+//           </p>
+//           <Link
+//             to="/"
+//             className="inline-block mt-4 bg-green-600 hover:bg-green-700 text-white px-6 py-2 rounded-md font-semibold transition"
+//           >
+//             Go to Home
+//           </Link>
+//         </div>
+//       </div>
+
+//       <Footer />
+//     </div>
+//   );
+// };
+
+// export default PaymentSuccess;
+
+
+
+
+
+import { useEffect } from "react";
+import { useLocation } from "react-router-dom";
 
 const PaymentSuccess = () => {
-  return (
-    <div className="flex flex-col min-h-screen bg-gradient-to-b from-green-50 to-white">
-      <div className="flex-grow flex items-center justify-center p-6">
-        <div className="bg-white p-10 rounded-xl shadow-lg text-center max-w-md w-full">
-          <h1 className="text-3xl font-bold text-green-600 mb-4">Return to Home!</h1>
-          <p className="text-gray-700 mb-6">
-            {/* Thank you for your purchase. Your transaction has been completed successfully. */}
-            click below to return home page
-          </p>
-          <Link
-            to="/"
-            className="inline-block mt-4 bg-green-600 hover:bg-green-700 text-white px-6 py-2 rounded-md font-semibold transition"
-          >
-            Go to Home
-          </Link>
-        </div>
-      </div>
+  const location = useLocation();
+  const query = new URLSearchParams(location.search);
+  const order_id = query.get("order_id");
 
-      <Footer />
+  useEffect(() => {
+    // Fetch user details from localStorage or state
+    const userId = localStorage.getItem("userId"); // You should store this earlier
+    const plan = localStorage.getItem("plan");
+    const duration = localStorage.getItem("duration");
+    const email = localStorage.getItem("email");
+    const name = localStorage.getItem("name");
+    const amount = localStorage.getItem("amount");
+
+    if (!order_id || !userId) return;
+
+    fetch("https://magicscale-backend.onrender.com/api/cashfree/confirm-payment", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ order_id, userId, plan, duration, amount, email, name }),
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        console.log("✅ Payment confirmed:", data);
+      })
+      .catch((err) => console.error("❌ Confirm failed:", err));
+  }, [location]);
+
+  return (
+    <div className="text-center py-20">
+      <h1 className="text-3xl font-bold text-green-600">🎉 Payment Successful!</h1>
+      <p className="text-gray-600 mt-4">We'll email you the onboarding details shortly.</p>
     </div>
   );
 };

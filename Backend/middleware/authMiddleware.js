@@ -43,24 +43,6 @@ export default verifyToken;
 
 
 
-/**
- * Assign user as seller (admin-only functionality)
- */
-// export const assignSeller = async (req, res) => {
-//   const { userId } = req.params;
-
-//   try {
-//     const user = await User.findById(userId);
-//     if (!user) return res.status(404).json({ message: 'User not found' });
-
-//     user.role = 'seller'; // or user.isSeller = true;
-//     await user.save();
-
-//     res.status(200).json({ message: 'User assigned as seller successfully', user });
-//   } catch (error) {
-//     res.status(500).json({ message: 'Error assigning seller', error });
-//   }
-// };
 
 export const assignSeller = async (req, res) => {
   const { userId } = req.params;
@@ -105,48 +87,6 @@ export const getAllUsers = async (req, res) => {
     res.status(500).json({ message: 'Failed to fetch users' });
   }
 };
-
-// import jwt from 'jsonwebtoken';
-
-// export const verifyToken = (req, res, next) => {
-//   const authHeader = req.headers.authorization;
-
-//   if (!authHeader || !authHeader.startsWith('Bearer ')) {
-//     return res.status(401).json({ message: 'Authorization token missing or malformed' });
-//   }
-
-//   const token = authHeader.split(' ')[1];
-
-//   try {
-//     const decoded = jwt.verify(token, process.env.JWT_SECRET);
-//     req.user = decoded; // user = { id, email, role, ... }
-//     next();
-//   } catch (err) {
-//     return res.status(401).json({ message: 'Invalid or expired token' });
-//   }
-// };
-
-// // ✅ For routes that require seller role
-// export const verifySeller = (req, res, next) => {
-//   verifyToken(req, res, () => {
-//     if (req.user.role !== 'seller') {
-//       return res.status(403).json({ message: 'Sellers only' });
-//     }
-//     next();
-//   });
-// };
-
-// // ✅ Optional: for admin-only access
-// export const verifyAdmin = (req, res, next) => {
-//   verifyToken(req, res, () => {
-//     if (req.user.role !== 'admin') {
-//       return res.status(403).json({ message: 'Admins only' });
-//     }
-//     next();
-//   });
-// };
-
-
 
 
 
