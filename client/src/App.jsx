@@ -18,7 +18,7 @@ import ResetPassword from './components/Login/ResetPassword/ResetPassword';
 import Signup from './components/Signup/Signup';
 import ProtectedRoute from './components/ProtectedRoute'; 
 import PhoneOTPLogin from './components/PhoneOTPLogin';
-import ZomatoCoursePage from    './pages/depthcard/CoursePage/ZomatoCoursePage'; 
+import ZomatoCoursePage from    './Pages/depthcard/CoursePage/ZomatoCoursePage'; 
 
 
 
@@ -39,7 +39,7 @@ function App() {
           <Route path="/services/zomato" element={<ZomatoDetails />} />
         <Route path="/services/swiggy" element={<SwiggyDetails />} />
         <Route path="/services/fssai" element={<FssaiDetails />} />
-          <Route path="/Services" element={<Work />} />
+          <Route path="/services" element={<Work />} />
             <Route path="/login" element={<Login />} />
         <Route path="/signup" element={<Signup />} />
         <Route path="/forgot-password" element={<ForgotPassword />} />
