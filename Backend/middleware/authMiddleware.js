@@ -1,69 +1,61 @@
+// middlewares/authMiddleware.js
+import jwt from "jsonwebtoken";
 
+export const verifyToken = (req, res, next) => {
+  const authHeader = req.headers.authorization;
+  if (!authHeader || !authHeader.startsWith("Bearer ")) {
+    return res.status(401).json({ message: "Authorization token missing or malformed" });
+  }
 
-
-
-
-export const verifySeller = (req, res, next) => {
-  const token = req.headers.authorization?.split(' ')[1];
-  if (!token) return res.status(401).json({ message: 'No token' });
+  const token = authHeader.split(" ")[1];
 
   try {
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
-    if (decoded.role !== 'seller') {
-      return res.status(403).json({ message: 'Sellers only' });
+    req.user = decoded;
+    next();
+  } catch (err) {
+    return res.status(401).json({ message: "Invalid or expired token" });
+  }
+};
+
+export const verifySeller = (req, res, next) => {
+  const token = req.headers.authorization?.split(" ")[1];
+  if (!token) return res.status(401).json({ message: "No token" });
+
+  try {
+    const decoded = jwt.verify(token, process.env.JWT_SECRET);
+    if (decoded.role !== "seller") {
+      return res.status(403).json({ message: "Sellers only" });
     }
     req.user = decoded;
     next();
   } catch (err) {
-    res.status(403).json({ message: 'Invalid token' });
+    res.status(403).json({ message: "Invalid token" });
   }
 };
 
+// export const verifyAdmin = (req, res, next) => {
+//   const token = req.headers.authorization?.split(" ")[1];
+//   if (!token) return res.status(401).json({ message: "No token" });
 
-export const verifyToken = (req, res, next) => {
-  const authHeader = req.headers.authorization;
-
-  if (!authHeader || !authHeader.startsWith('Bearer ')) {
-    return res.status(401).json({ message: 'Authorization token missing or malformed' });
-  }
-
-  const token = authHeader.split(' ')[1];
-
-  try {
-    const decoded = jwt.verify(token, process.env.JWT_SECRET);
-    req.user = decoded;
-    next();
-  } catch (err) {
-    return res.status(401).json({ message: 'Invalid or expired token' });
-  }
-};
-export default verifyToken;
+//   try {
+//     const decoded = jwt.verify(token, process.env.JWT_SECRET);
+//     if (decoded.role !== "admin") {
+//       return res.status(403).json({ message: "Admins only" });
+//     }
+//     req.user = decoded;
+//     next();
+//   } catch (err) {
+//     res.status(403).json({ message: "Invalid token" });
+//   }
+// };
 
 
 
-
-
-
-export const assignSeller = async (req, res) => {
-  const { userId } = req.params;
-
-  try {
-    const user = await User.findById(userId);
-    if (!user) return res.status(404).json({ message: 'User not found' });
-
-    user.role = 'seller'; // Optionally: user.isSeller = true;
-    await user.save();
-
-    res.status(200).json({ message: 'User assigned as seller successfully', user });
-  } catch (error) {
-    console.error('Error assigning seller:', error);
-    res.status(500).json({ message: 'Error assigning seller', error });
-  }
-};
 
 export const verifyAdmin = (req, res, next) => {
   const token = req.headers.authorization?.split(' ')[1];
-  if (!token) return res.status(401).json({ message: 'No token' });
+  if (!token) return res.status(401).json({ message: 'No token provided' });
 
   try {
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
@@ -73,26 +65,28 @@ export const verifyAdmin = (req, res, next) => {
     req.user = decoded;
     next();
   } catch (err) {
-    res.status(403).json({ message: 'Invalid token' });
+    return res.status(403).json({ message: 'Invalid token' });
   }
 };
 
 
-// controllers/userController.js
-export const getAllUsers = async (req, res) => {
+
+// Allow both admins and sellers
+export const verifyAdminOrSeller = (req, res, next) => {
+  const token = req.headers.authorization?.split(' ')[1];
+  if (!token) return res.status(401).json({ message: 'No token provided' });
+
   try {
-    const users = await User.find({}, '-password'); // Exclude password
-    res.json(users);
-  } catch (error) {
-    res.status(500).json({ message: 'Failed to fetch users' });
+    const decoded = jwt.verify(token, process.env.JWT_SECRET);
+    if (decoded.role !== 'admin' && decoded.role !== 'seller') {
+      return res.status(403).json({ message: 'Access denied: Admins or Sellers only' });
+    }
+    req.user = decoded;
+    next();
+  } catch (err) {
+    return res.status(403).json({ message: 'Invalid or expired token' });
   }
 };
-
-
-
-
-
-
 
 
 

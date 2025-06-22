@@ -1,34 +1,64 @@
-import { FaMotorcycle } from "react-icons/fa";
-import { Link } from "react-router-dom";
-import swiggyImg from "../../assets/swiggy.png";
+import React from 'react';
+import { useNavigate } from 'react-router-dom';
+import swiggyImg from '../../assets/zomato3.png'; // ✅ Make sure this image exists
 
-const SwiggyDetails = () => {
+const SwiggyPage = () => {
+  const navigate = useNavigate();
+
+  const handleStartOnboarding = () => {
+    navigate('/course/swiggy-onboarding');
+  };
+
   return (
-    <div className="min-h-screen bg-gradient-to-br from-sky-100 via-white to-sky-200 p-6">
-      <div className="max-w-4xl mx-auto bg-white shadow-xl rounded-xl p-8">
-        <div className="flex items-center gap-4 mb-6">
-          <FaMotorcycle size={30} className="text-orange-500" />
-          <h1 className="text-3xl font-bold text-gray-800">Swiggy Setup Service</h1>
+    <div className="h-screen overflow-hidden bg-gradient-to-br from-orange-50 via-yellow-50 to-pink-50">
+      <div className="h-full flex">
+
+        {/* ✅ Left: Scrollable Text */}
+        <div className="w-full md:w-1/2 overflow-y-auto px-6 py-20 sm:px-10 space-y-8">
+          <div className="space-y-8 text-left pr-4">
+            <h1 className="text-5xl sm:text-6xl font-extrabold text-gray-900 leading-tight tracking-tight">
+              Effortless Swiggy Onboarding <br />
+              <span className="bg-gradient-to-r from-orange-500 to-yellow-500 bg-clip-text text-transparent">
+                For Your Restaurant
+              </span>
+            </h1>
+
+            <p className="text-lg sm:text-xl text-gray-700 leading-relaxed font-medium">
+              Getting listed on Swiggy has never been easier. Our team ensures every aspect of your online presence is handled professionally — from initial registration to a fully optimized listing that drives more orders.
+            </p>
+
+            <p className="text-lg sm:text-xl text-gray-700 leading-relaxed font-medium">
+              We simplify the setup by handling everything — from designing your menu, enabling delivery, activating payments, to making your brand visually appealing. You get a full-service experience so you can focus on your kitchen.
+            </p>
+
+            <p className="text-lg sm:text-xl text-gray-700 leading-relaxed font-medium">
+              Whether you’re running a cloud kitchen, multi-cuisine outlet, or local café, we help you make a strong digital presence on Swiggy. Our mission — more reach, more revenue, and a frictionless onboarding.
+            </p>
+
+            <p className="text-sm text-gray-500">
+              Trusted by hundreds of food businesses across India.
+            </p>
+
+            <button
+              onClick={handleStartOnboarding}
+              className="mt-6 bg-orange-500 hover:bg-orange-600 text-white px-6 py-3 rounded-lg text-lg shadow transition"
+            >
+              Start Swiggy Onboarding
+            </button>
+          </div>
         </div>
-        <img src={swiggyImg} alt="Swiggy" className="w-full h-64 object-contain mb-6" />
-        <p className="text-gray-700 text-lg leading-relaxed">
-          We handle everything required to launch your restaurant on Swiggy. From onboarding to optimizing your store for better reach, we ensure your success.
-        </p>
-        <ul className="list-disc mt-6 ml-6 text-gray-600 space-y-2">
-          <li>Complete Swiggy registration</li>
-          <li>Store listing and description setup</li>
-          <li>Menu digitization and uploading</li>
-          <li>Strategy to increase daily orders</li>
-        </ul>
-        <Link
-          to="/"
-          className="inline-block mt-8 px-5 py-3 bg-orange-500 text-white rounded-full hover:bg-orange-600 transition"
-        >
-          ⬅ Back to Services
-        </Link>
+
+        {/* ✅ Right: Sticky Image Section */}
+        <div className="hidden md:flex md:w-1/2 items-center justify-center sticky top-0 h-screen z-10">
+          <img
+            src={swiggyImg}
+            alt="Swiggy Setup"
+            className="w-full max-w-2xl rounded-3xl shadow-2xl object-cover"
+          />
+        </div>
       </div>
     </div>
   );
 };
 
-export default SwiggyDetails;
+export default SwiggyPage;

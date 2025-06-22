@@ -1,129 +1,3 @@
-// // Signup component for user registration
-
-// import React, { useState } from 'react';
-// import { useNavigate, Link } from 'react-router-dom';
-// import { FaUser, FaEnvelope, FaLock } from 'react-icons/fa';
-// import './Signup.css';
-
-// const Signup = () => {
-//   const navigate = useNavigate();
-
-//   const [name, setName] = useState('');
-//   const [email, setEmail] = useState('');
-//   const [password, setPassword] = useState('');
-//   const [confirm, setConfirm] = useState('');
-//   const [role, setRole] = useState('buyer'); // default role
-//   const [error, setError] = useState('');
-
-//   const handleSignup = async (e) => {
-//     e.preventDefault();
-
-//     if (password !== confirm) {
-//       setError("Passwords don't match");
-//       return;
-//     }
-
-//     try {
-//       const response = await fetch('http://localhost:5000/api/auth/register', {
-//         method: 'POST',
-//         headers: { 'Content-Type': 'application/json' },
-//         body: JSON.stringify({ name, email, password, role }), // send role here
-//       });
-
-//       const data = await response.json();
-
-//       if (response.ok) {
-//         alert('Signup successful! Please login.');
-//         navigate('/login');
-//       } else {
-//         setError(data.message || 'Signup failed');
-//       }
-//     } catch (err) {
-//       console.error('Signup error:', err);
-//       setError('Server error. Please try again later.');
-//     }
-//   };
-
-//   return (
-//     <div className="auth-bg">
-//       <div className="auth-card">
-//         <h2>Sign Up</h2>
-//         <form onSubmit={handleSignup}>
-//           <div className="input-group">
-//             <FaUser className="icon" />
-//             <input
-//               type="text"
-//               placeholder="Full Name"
-//               value={name}
-//               onChange={(e) => setName(e.target.value)}
-//               required
-//             />
-//           </div>
-
-//           <div className="input-group">
-//             <FaEnvelope className="icon" />
-//             <input
-//               type="email"
-//               placeholder="Email Address"
-//               value={email}
-//               onChange={(e) => setEmail(e.target.value)}
-//               required
-//             />
-//           </div>
-
-//           <div className="input-group">
-//             <FaLock className="icon" />
-//             <input
-//               type="password"
-//               placeholder="Password"
-//               value={password}
-//               onChange={(e) => setPassword(e.target.value)}
-//               required
-//             />
-//           </div>
-
-//           <div className="input-group">
-//             <FaLock className="icon" />
-//             <input
-//               type="password"
-//               placeholder="Confirm Password"
-//               value={confirm}
-//               onChange={(e) => setConfirm(e.target.value)}
-//               required
-//             />
-//           </div>
-
-//           <div className="input-group">
-//             <label htmlFor="role" style={{ marginBottom: '5px' }}>Select Role:</label>
-//             <select
-//               id="role"
-//               value={role}
-//               onChange={(e) => setRole(e.target.value)}
-//               required
-//               style={{ padding: '8px', borderRadius: '4px' }}
-//             >
-//               <option value="buyer">Buyer</option>
-//               <option value="seller">Seller</option>
-//               <option value="admin">Admin</option>
-//             </select>
-//           </div>
-
-//           {error && <p className="auth-error">{error}</p>}
-
-//           <button type="submit" className="auth-btn">Create Account</button>
-//         </form>
-
-//         <p className="auth-footer">
-//           Already have an account? <Link to="/login">Login</Link>
-//         </p>
-//       </div>
-//     </div>
-//   );
-// };
-
-// export default Signup;
-
-
 
 
 
@@ -139,177 +13,16 @@
 
 // import React, { useState } from 'react';
 // import { useNavigate, Link } from 'react-router-dom';
-// import { FaUser, FaEnvelope, FaLock } from 'react-icons/fa';
-// import './Signup.css';
-// import { useAuth } from '../../context/AuthContext/useAuth';
-
-// const Signup = () => {
-//   const navigate = useNavigate();
-//   const { login } = useAuth();
-
-//   const [name, setName] = useState('');
-//   const [email, setEmail] = useState('');
-//   const [password, setPassword] = useState('');
-//   const [confirm, setConfirm] = useState('');
-//   const [role, setRole] = useState('buyer'); // default role
-//   const [error, setError] = useState('');
-
-//   const handleSignup = async (e) => {
-//     e.preventDefault();
-
-//     if (password !== confirm) {
-//       setError("Passwords don't match");
-//       return;
-//     }
-
-//     try {
-//       const response = await fetch('http://localhost:5000/api/auth/register', {
-//         method: 'POST',
-//         headers: { 'Content-Type': 'application/json' },
-//         body: JSON.stringify({ name, email, password, role }),
-//       });
-
-//       const data = await response.json();
-
-//       if (response.ok) {
-//         // ✅ Save token and user to localStorage
-//         localStorage.setItem('token', data.token);
-//         localStorage.setItem('user', JSON.stringify(data.user));
-
-//         // ✅ Optionally update auth context
-//         login(data.user);
-
-//         // ✅ Navigate based on role
-//         if (data.user?.role === 'seller') {
-//           navigate('/upload-food');
-//         } else {
-//           navigate('/');
-//         }
-//       } else {
-//         setError(data.message || 'Signup failed');
-//       }
-//     } catch (err) {
-//       console.error('Signup error:', err);
-//       setError('Server error. Please try again later.');
-//     }
-//   };
-
-//   return (
-//     <div className="auth-bg">
-//       <div className="auth-card">
-//         <h2>Sign Up</h2>
-//         <form onSubmit={handleSignup}>
-//           <div className="input-group">
-//             <FaUser className="icon" />
-//             <input
-//               type="text"
-//               placeholder="Full Name"
-//               value={name}
-//               onChange={(e) => setName(e.target.value)}
-//               required
-//             />
-//           </div>
-
-//           <div className="input-group">
-//             <FaEnvelope className="icon" />
-//             <input
-//               type="email"
-//               placeholder="Email Address"
-//               value={email}
-//               onChange={(e) => setEmail(e.target.value)}
-//               required
-//             />
-//           </div>
-
-//           <div className="input-group">
-//             <FaLock className="icon" />
-//             <input
-//               type="password"
-//               placeholder="Password"
-//               value={password}
-//               onChange={(e) => setPassword(e.target.value)}
-//               required
-//             />
-//           </div>
-
-//           <div className="input-group">
-//             <FaLock className="icon" />
-//             <input
-//               type="password"
-//               placeholder="Confirm Password"
-//               value={confirm}
-//               onChange={(e) => setConfirm(e.target.value)}
-//               required
-//             />
-//           </div>
-
-//           <div className="input-group">
-//             <label htmlFor="role" style={{ marginBottom: '5px' }}>Select Role:</label>
-//             <select
-//               id="role"
-//               value={role}
-//               onChange={(e) => setRole(e.target.value)}
-//               required
-//               style={{ padding: '8px', borderRadius: '4px' }}
-//             >
-//               <option value="buyer">Buyer</option>
-//               <option value="seller">Seller</option>
-//               <option value="admin">Admin</option>
-//             </select>
-//           </div>
-
-//           {error && <p className="auth-error">{error}</p>}
-
-//           <button type="submit" className="auth-btn">Create Account</button>
-//         </form>
-
-//         <p className="auth-footer">
-//           Already have an account? <Link to="/login">Login</Link>
-//         </p>
-//       </div>
-//     </div>
-//   );
-// };
-
-// export default Signup;
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-// import React, { useState } from 'react';
-// import { useNavigate, Link } from 'react-router-dom';
-// import { FaEnvelope, FaLock } from 'react-icons/fa';
+// import { FaEnvelope, FaLock, FaUser } from 'react-icons/fa';
 // import './Signup.css';
 
 // const Signup = () => {
 //   const navigate = useNavigate();
 
+//   const [name, setName] = useState('');
 //   const [email, setEmail] = useState('');
 //   const [password, setPassword] = useState('');
 //   const [error, setError] = useState('');
-//   const [name, setName] = useState('');
-
 
 //   const handleSignup = async (e) => {
 //     e.preventDefault();
@@ -318,7 +31,7 @@
 //       const res = await fetch('http://localhost:5000/api/auth/register', {
 //         method: 'POST',
 //         headers: { 'Content-Type': 'application/json' },
-//         body: JSON.stringify({ email, password }),
+//         body: JSON.stringify({ name, email, password }),
 //       });
 
 //       const data = await res.json();
@@ -341,6 +54,17 @@
 //         <h2>Sign Up</h2>
 //         <form onSubmit={handleSignup}>
 //           <div className="input-group">
+//             <FaUser className="icon" />
+//             <input
+//               type="text"
+//               placeholder="Full Name"
+//               value={name}
+//               onChange={(e) => setName(e.target.value)}
+//               required
+//             />
+//           </div>
+
+//           <div className="input-group">
 //             <FaEnvelope className="icon" />
 //             <input
 //               type="email"
@@ -350,16 +74,6 @@
 //               required
 //             />
 //           </div>
-//           <div className="input-group">
-//          <input
-//     type="text"
-//     placeholder="Full Name"
-//     value={name}
-//     onChange={(e) => setName(e.target.value)}
-//     required
-//   />
-//       </div>
-
 
 //           <div className="input-group">
 //             <FaLock className="icon" />
@@ -398,37 +112,9 @@
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 import React, { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { FaEnvelope, FaLock, FaUser } from 'react-icons/fa';
-import './Signup.css';
 
 const Signup = () => {
   const navigate = useNavigate();
@@ -451,8 +137,8 @@ const Signup = () => {
       const data = await res.json();
 
       if (res.ok) {
-        alert(data.message); // Show OTP sent message
-        navigate('/verify-otp', { state: { email } }); // Pass email for next step
+        alert(data.message);
+        navigate('/verify-otp', { state: { email } });
       } else {
         setError(data.message || 'Signup failed');
       }
@@ -463,50 +149,62 @@ const Signup = () => {
   };
 
   return (
-    <div className="auth-bg">
-      <div className="auth-card">
-        <h2>Sign Up</h2>
-        <form onSubmit={handleSignup}>
-          <div className="input-group">
-            <FaUser className="icon" />
+    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-blue-100 to-white relative">
+      {/* Background shape */}
+      <div className="absolute top-0 left-0 w-[300px] h-[300px] bg-purple-200 rounded-full blur-3xl opacity-50 -translate-x-1/2 -translate-y-1/2 pointer-events-none z-0"></div>
+
+      <div className="relative z-10 w-full max-w-md bg-white p-10 rounded-xl shadow-xl">
+        <h2 className="text-3xl font-bold text-center text-blue-800 mb-6">Sign Up</h2>
+        <form onSubmit={handleSignup} className="space-y-4">
+          <div className="flex items-center border border-gray-300 rounded-lg p-3 bg-gray-50">
+            <FaUser className="mr-3 text-gray-600" />
             <input
               type="text"
               placeholder="Full Name"
               value={name}
               onChange={(e) => setName(e.target.value)}
               required
+              className="w-full bg-transparent outline-none text-gray-800"
             />
           </div>
 
-          <div className="input-group">
-            <FaEnvelope className="icon" />
+          <div className="flex items-center border border-gray-300 rounded-lg p-3 bg-gray-50">
+            <FaEnvelope className="mr-3 text-gray-600" />
             <input
               type="email"
               placeholder="Email Address"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               required
+              className="w-full bg-transparent outline-none text-gray-800"
             />
           </div>
 
-          <div className="input-group">
-            <FaLock className="icon" />
+          <div className="flex items-center border border-gray-300 rounded-lg p-3 bg-gray-50">
+            <FaLock className="mr-3 text-gray-600" />
             <input
               type="password"
               placeholder="Password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               required
+              className="w-full bg-transparent outline-none text-gray-800"
             />
           </div>
 
-          {error && <p className="auth-error">{error}</p>}
+          {error && <p className="text-red-600 text-sm -mt-2">{error}</p>}
 
-          <button type="submit" className="auth-btn">Create Account</button>
+          <button
+            type="submit"
+            className="w-full bg-blue-700 text-white py-2 rounded-lg hover:bg-blue-800 transition"
+          >
+            Create Account
+          </button>
         </form>
 
-        <p className="auth-footer">
-          Already have an account? <Link to="/login">Login</Link>
+        <p className="mt-4 text-sm text-center text-gray-600">
+          Already have an account?{' '}
+          <Link to="/login" className="text-blue-700 hover:underline">Login</Link>
         </p>
       </div>
     </div>
