@@ -116,7 +116,10 @@
 import { FaUtensils, FaMotorcycle, FaCertificate } from "react-icons/fa";
 import { Link } from "react-router-dom";
 import zomatoImg from "../assets/zomato.png";
-import swiggyImg from "../assets/swiggy.png";
+// import swiggyImg from "../assets/swiggy.png";
+
+// import swiggyImg from "../assets/swiggy.png";
+
 import fssaiImg from "../assets/fssai.png";
 
 const services = [
