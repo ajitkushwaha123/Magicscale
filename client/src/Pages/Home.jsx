@@ -50,7 +50,7 @@ import About from "../components/About";
 import Footer from "../components/Footer";
 import Video from "../components/Video";
 import HomeWork from "../components/HomeWork";
-// import Work from "../components/Work";
+import Work from "../components/Work";
 import Pricing from "../components/Pricing";
 // import UserDashboard from '../Pages/UserDashboard/UserDashboard';
 
