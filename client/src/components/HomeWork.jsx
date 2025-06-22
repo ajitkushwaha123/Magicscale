@@ -132,7 +132,7 @@ const services = [
   {
     title: "Swiggy Setup",
     icon: <FaMotorcycle size={24} />,
-    image: swiggyImg,
+    // image: swiggyImg,
     path: "/services/swiggy",
   },
   {

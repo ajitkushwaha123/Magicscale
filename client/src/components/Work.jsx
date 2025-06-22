@@ -1,6 +1,7 @@
 import { FaUtensils, FaMotorcycle, FaCertificate, FaStore } from "react-icons/fa";
+// import swiggyImg from "../assets/swiggy.png";
 import zomatoImg from "../assets/zomato.png";
-import swiggyImg from "../assets/swiggy.png";
+
 import fssaiImg from "../assets/fssai.png";
 import brandingImg from "../assets/branding.png";
 
@@ -15,7 +16,7 @@ const services = [
   {
     title: "Swiggy Setup",
     icon: <FaMotorcycle size={24} />,
-    image: swiggyImg,
+    // image: swiggyImg,
     description: "Full onboarding and boost for your Swiggy business.",
   },
   {
