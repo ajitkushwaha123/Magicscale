@@ -16,6 +16,7 @@ import Login from './components/Login/Login';
 import ForgotPassword from './components/Login/ForgotPassword/ForgotPassword';
 import ResetPassword from './components/Login/ResetPassword/ResetPassword';
 import Signup from './components/Signup/Signup';
+import VerifyOtp from "./components/Signup/VerifyOTP";
 import ProtectedRoute from './components/ProtectedRoute'; 
 import PhoneOTPLogin from './components/PhoneOTPLogin';
 import ZomatoCoursePage from    './Pages/depthcard/CoursePage/ZomatoCoursePage'; 
@@ -59,7 +60,8 @@ function App() {
         <Route path="/privacy-policy" element={<PrivacyPolicies />} />
         <Route path="/terms-and-condition" element={<Terms />} />
         <Route path="/login-phone" element={<PhoneOTPLogin />} />
-        
+        <Route path="/verify-otp" element={<VerifyOtp />} />
+       
         <Route
           path="/SellerDashboard"
           element={

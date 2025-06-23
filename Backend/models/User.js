@@ -1,6 +1,5 @@
 
 
-
 // import mongoose from 'mongoose';
 
 // const userSchema = new mongoose.Schema({
@@ -15,32 +14,17 @@
 //     unique: true,
 //   },
 
-//   profilePhoto: {
-//   type: String, // URL or local path
-// },
-
-// aadharCard: {
-//   type: String, // file URL/path
-// },
-
-// panCard: {
-//   type: String,
-// },
-
-
 //   password: {
 //     type: String,
 //     required: true,
 //   },
 
-//   // Default role for access control
 //   role: {
 //     type: String,
 //     enum: ['user', 'seller', 'admin'],
 //     default: 'user',
 //   },
 
-//   // Verification & OTP
 //   isVerified: {
 //     type: Boolean,
 //     default: false,
@@ -55,22 +39,23 @@
 //     type: String,
 //   },
 
-//   // Password Reset
 //   resetPasswordToken: {
 //     type: String,
 //   },
 //   resetPasswordExpires: {
 //     type: Date,
 //   },
-//   // Inside userSchema.add(...) or directly in schema
-// {
-//   // ...existing fields
-//   profilePhoto: { type: String },
-//   aadharCard: { type: String },
-//   panCard: { type: String },
-// }
 
-
+//   // ✅ Profile fields
+//   profilePhoto: {
+//     type: String,
+//   },
+//   aadharCard: {
+//     type: String,
+//   },
+//   panCard: {
+//     type: String,
+//   },
 // }, { timestamps: true });
 
 // export default mongoose.model('User', userSchema);
@@ -110,12 +95,15 @@ const userSchema = new mongoose.Schema({
     type: Boolean,
     default: false,
   },
+
   otp: {
     type: String,
   },
-  otpExpiry: {
-    type: Date,
+
+  otpExpiresAt: {
+    type: Date, // ✅ renamed from otpExpiry
   },
+
   verificationToken: {
     type: String,
   },
@@ -123,17 +111,20 @@ const userSchema = new mongoose.Schema({
   resetPasswordToken: {
     type: String,
   },
+
   resetPasswordExpires: {
     type: Date,
   },
 
-  // ✅ Profile fields
+  // ✅ Optional profile fields
   profilePhoto: {
     type: String,
   },
+
   aadharCard: {
     type: String,
   },
+
   panCard: {
     type: String,
   },

@@ -84,9 +84,10 @@ import adminRoutes from './routes/adminRoutes.js'
 import subscriptionRoutes from './routes/subscriptionRoutes.js';
 import authRoutes from './routes/authRoutes.js';
 import downloadRoutes from './routes/downloadRoutes.js';
-
+// import { resendOTP } from './controllers/authController.js';
 import cashfreeRoutes from "./routes/cashfreeRoutes.js"; // ✅ correct
 import  adminAuthConfig from "./routes/adminAuthConfig.js";
+// import { registerUser } from "./controllers/authController.js"; 
 
 
 
@@ -115,9 +116,11 @@ app.use('/api/admin', adminAuthConfig);
 app.use('/uploads', express.static(path.resolve('uploads')));
 app.use('/api', adminRoutes);
 app.use('/api', downloadRoutes);
+// router.post('/resend-otp', resendOTP);
 // Routes
 app.use('/api/user', userRoutes);
 app.use('/api', subscriptionRoutes);
+// app.use('/api/auth/verify-otp', verifyOtp); // Assuming you have a route for OTP verification
 
 app.use('/api/auth', authRoutes);
 // app.use('/api/admin', adminRoutes);

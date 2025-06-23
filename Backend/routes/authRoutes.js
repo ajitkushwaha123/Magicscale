@@ -17,11 +17,13 @@
 
 import express from 'express';
 import {
+  
   register,
   verifyOTP,
   login,
   forgotPassword,
   resetPassword,
+  resendOTP,
 } from '../controllers/authController.js';
 import {verifyToken} from '../middleware/authMiddleware.js';
 
@@ -61,6 +63,7 @@ router.post('/reset-password/:token', resetPassword);
  * @route   GET /dashboard
  * @desc    Protected route
  */
+router.post('/resend-otp', resendOTP);
 router.get('/dashboard', verifyToken, (req, res) => {
   res.json({
     message: 'Welcome to the dashboard!',
