@@ -102,7 +102,9 @@ const VerifyOtp = () => {
     e.preventDefault();
 
     try {
-      const res = await fetch('http://localhost:5000/api/auth/verify-otp', {
+
+      //http://localhost:5000/api/auth/verify-otp
+      const res = await fetch('http://magicscale-backend.onrender.com/api/auth/verify-otp', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ email, otp }),
@@ -126,7 +128,7 @@ const VerifyOtp = () => {
 
   const handleResend = async () => {
     try {
-      const res = await fetch('http://localhost:5000/api/auth/resend-otp', {
+      const res = await fetch('http://magicscale-backend.onrender.com/api/auth/resend-otp', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ email }),
