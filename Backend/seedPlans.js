@@ -1,14 +1,13 @@
-// seedPlans.js
 import mongoose from "mongoose";
 import dotenv from "dotenv";
-import Plan from "./models/Plan.js"; // Ensure this path is correct for your Plan model
+import Plan from "./models/Plan.js"; // ✅ Adjust this path if your model is elsewhere
 
 dotenv.config();
 
 const plansToSeed = [
-  // General Growth Plans (from your original seedPlans.js)
+  // 🌱 General Growth Plans
   {
-    slug: "basic",
+    slug: "basic-growth",
     name: "Basic Growth Plan",
     price: 7999,
     features: [
@@ -20,20 +19,21 @@ const plansToSeed = [
     ],
   },
   {
-    slug: "premium",
+    slug: "premium-growth",
     name: "Premium Growth Plan",
     price: 9999,
     features: [
       "All Basic Features",
       "Dedicated Account Manager",
       "Festival-Specific Promotions",
-      "Zomato & Swiggy Ad Campaigns",
+      "Ad Campaign Management (platform-specific)", // Changed for generality
       "Advanced Analytics Dashboard",
     ],
   },
-  // Zomato Onboarding Plans (from ZomatoOnboardingCourse.jsx)
+
+  // 🍽️ Zomato Onboarding Plans
   {
-    slug: "zomato-starter", // Changed slug to be more specific
+    slug: "zomato-starter",
     name: "Zomato Onboarding - Starter Onboarding",
     price: 1999,
     features: [
@@ -44,7 +44,7 @@ const plansToSeed = [
     ],
   },
   {
-    slug: "zomato-pro", // Changed slug to be more specific
+    slug: "zomato-pro",
     name: "Zomato Onboarding - Pro Launch Package",
     price: 2999,
     features: [
@@ -55,7 +55,35 @@ const plansToSeed = [
       "Priority Listing Support",
     ],
   },
-  // FSSAI License Plans (from FssaiLicenseCourse.jsx)
+
+  // 🚀 Swiggy Onboarding Plans (NEW)
+  {
+    slug: "swiggy-basic",
+    name: "Swiggy Onboarding - Basic Onboarding",
+    price: 1999,
+    features: [
+      "Swiggy Restaurant Account Setup",
+      "Basic Menu Creation & Upload",
+      "Initial Listing Support",
+      "Payment Gateway Integration",
+    ],
+  },
+  {
+    slug: "swiggy-prime",
+    name: "Swiggy Onboarding - Prime Launch Package",
+    price: 2999,
+    features: [
+      "Swiggy Restaurant Account Setup",
+      "Advanced Menu Design & Optimization",
+      "Professional Photo Upload (up to 50 items)",
+      "Restaurant Profile Branding Assistance",
+      "Priority Listing & Approval",
+      "Performance Tips & Basic Insights",
+      "Dedicated Onboarding Support",
+    ],
+  },
+
+  // 🧾 FSSAI Registration Plans
   {
     slug: "fssai-registration-1yr",
     name: "FSSAI Registration - 1 Year",
@@ -76,13 +104,13 @@ const plansToSeed = [
   },
   {
     slug: "fssai-state-license",
-    name: "FSSAI State License - 1-5 Year",
-    price: (3999 + 1000), // Assuming 'Govt' is 1000 as per your FSSAI component
-    features: ["Application Prep", "State License - 1-5 Year"],
+    name: "FSSAI State License - 1–5 Year",
+    price: 4999, // 3999 + 1000 govt fee
+    features: ["Application Prep", "State License - 1–5 Year"],
   },
   {
     slug: "fssai-tatkal-license",
-    name: "FSSAI Tatkal License - 1 Years",
+    name: "FSSAI Tatkal License - 1 Year",
     price: 999,
     features: ["Basic Application", "Filing Support", "1 Year License"],
   },
@@ -94,30 +122,29 @@ const plansToSeed = [
   },
 ];
 
+// 🛠️ Run Seeder
 mongoose
   .connect(process.env.MONGO_URI)
   .then(async () => {
-    console.log("Connected to MongoDB for seeding.");
+    console.log("🔗 Connected to MongoDB");
 
-    // Iterate over plans and perform upsert operation
-    for (const planData of plansToSeed) {
-      // Find a plan by slug and update it, or insert if it doesn't exist
+    for (const plan of plansToSeed) {
       await Plan.findOneAndUpdate(
-        { slug: planData.slug }, // Query to find the document
-        planData, // Data to update/insert
+        { slug: plan.slug },
+        plan,
         {
-          upsert: true, // Create the document if it doesn't exist
-          new: true, // Return the updated document rather than the original
-          setDefaultsOnInsert: true, // Apply schema defaults when inserting new documents
+          upsert: true,
+          new: true,
+          setDefaultsOnInsert: true,
         }
       );
-      console.log(`✅ Upserted plan: ${planData.name}`);
+      console.log(`✅ Upserted: ${plan.name}`);
     }
 
-    console.log("✅ All plans seeded successfully.");
-    process.exit();
+    console.log("🎉 All plans seeded successfully");
+    process.exit(0);
   })
   .catch((err) => {
-    console.error("❌ Failed to seed plans:", err.message);
+    console.error("❌ MongoDB seed error:", err.message);
     process.exit(1);
   });

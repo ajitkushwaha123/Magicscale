@@ -1466,8 +1466,6 @@
 
 
 
-
-
 import React, { useState, useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import fssaiImg from '../../../assets/fssai.png';
@@ -1479,18 +1477,15 @@ import FssaiWhatYouGet from './FssaiWhatYouGet';
 import FssaiEligibility from "./FssaiEligibility";
 import SiteFooter from './SiteFooter';
 
-const Govt = 1000; // Assuming 'Govt' is a variable for a government fee, you can adjust its value.
+const Govt = 1000;
 
 const plans = [
-  // Updated FSSAI Registration plans
-  { label: 'FSSAI Registration - 1 Year', price: 1500, features: ['Basic Application', 'Filing Support', '1 Year License'] },
-  { label: 'FSSAI Registration - 3 Years', price: 2000, features: ['Basic Application', 'Filing Support', '3 Year License'] },
-  { label: 'FSSAI Registration - 5 Years', price: 2500, features: ['Basic Application', 'Filing Support', '5 Year License'] },
-  // Updated FSSAI State License
-  { label: 'FSSAI State License - 1-5 Year', price: (3999 + Govt), features: ['Application Prep', 'State License - 1-5 Year'] },
-  // New FSSAI Tatkal License
-  { label: 'FSSAI Tatkal License - 1 Years', price: 999, features: ['Basic Application', 'Filing Support', '1 Year License'] },
-  { label: 'FSSAI Central License - 1 Year', price: 1999, features: ['Central Filing', '1 Year License'] },
+  { slug: 'fssai-registration-1yr', label: 'FSSAI Registration - 1 Year', price: 1500, features: ['Basic Application', 'Filing Support', '1 Year License'] },
+  { slug: 'fssai-registration-3yrs', label: 'FSSAI Registration - 3 Years', price: 2000, features: ['Basic Application', 'Filing Support', '3 Year License'] },
+  { slug: 'fssai-registration-5yrs', label: 'FSSAI Registration - 5 Years', price: 2500, features: ['Basic Application', 'Filing Support', '5 Year License'] },
+  { slug: 'fssai-state-license', label: 'FSSAI State License - 1-5 Year', price: (3999 + Govt), features: ['Application Prep', 'State License - 1-5 Year'] },
+  { slug: 'fssai-tatkal-license', label: 'FSSAI Tatkal License - 1 Years', price: 999, features: ['Basic Application', 'Filing Support', '1 Year License'] },
+  { slug: 'fssai-central-license', label: 'FSSAI Central License - 1 Year', price: 1999, features: ['Central Filing', '1 Year License'] },
 ];
 
 const FssaiLicenseCourse = () => {
@@ -1500,12 +1495,9 @@ const FssaiLicenseCourse = () => {
   const totalPrice = selectedPlan.price * quantity;
   const [isDarkMode, setIsDarkMode] = useState(false);
 
-  // Ref for the main content area that the sticky element will be constrained by
   const mainContentRef = useRef(null);
-  // Ref for the sticky checkout bar itself
   const checkoutRef = useRef(null);
 
-  // Dark Mode Effect
   useEffect(() => {
     if (isDarkMode) {
       document.documentElement.classList.add('dark');
@@ -1517,7 +1509,6 @@ const FssaiLicenseCourse = () => {
     localStorage.setItem('darkMode', isDarkMode);
   }, [isDarkMode]);
 
-  // Load dark mode preference from localStorage on initial render
   useEffect(() => {
     const savedDarkMode = localStorage.getItem('darkMode') === 'true';
     setIsDarkMode(savedDarkMode);
@@ -1527,21 +1518,21 @@ const FssaiLicenseCourse = () => {
     setIsDarkMode(!isDarkMode);
   };
 
+  const goToCheckout = () => {
+    navigate(`/checkout/${selectedPlan.slug}`);
+  };
+
   const renderCheckoutCard = (isMobile = false) => (
     <div
       ref={isMobile ? null : checkoutRef}
-      id={isMobile ? null : 'sticky-checkout'}
       className={`rounded-xl shadow-lg p-5 w-full max-w-sm ${isMobile ? 'mx-auto' : ''} ${isDarkMode ? 'bg-gray-800 text-gray-100' : 'bg-white text-gray-900'}`}
     >
       <img src={fssaiImg} alt="FSSAI License" className="rounded-md mb-4 w-full object-cover h-40" />
       <h2 className="text-2xl font-bold mb-1">Rs.{totalPrice}</h2>
       <p className={`text-sm mb-3 ${isDarkMode ? 'text-gray-400' : 'text-gray-600'}`}>{selectedPlan.label}</p>
 
-      {/* This select element acts as your "category bar" for plan selection */}
       <div className="mb-4">
-        <label htmlFor="plan-select" className="sr-only">Select License Plan</label>
         <select
-          id="plan-select"
           value={selectedPlan.label}
           onChange={(e) => {
             const selected = plans.find((p) => p.label === e.target.value);
@@ -1555,79 +1546,45 @@ const FssaiLicenseCourse = () => {
         </select>
       </div>
 
-      <button
-        onClick={() => navigate('/checkout/fssai')}
-        className="w-full bg-green-600 text-white py-2 rounded-lg hover:bg-green-700 transition"
-      >
-        Go to Cart
-      </button>
-
-      <button
-        onClick={() => navigate('/checkout/fssai')}
-        className={`w-full border mt-2 py-2 rounded-lg ${isDarkMode ? 'border-green-500 text-green-400 hover:bg-green-900' : 'border-green-600 text-green-700 hover:bg-green-50'}`}
-      >
-        Buy Now
-      </button>
+      <button onClick={goToCheckout} className="w-full bg-green-600 text-white py-2 rounded-lg hover:bg-green-700 transition">Go to Cart</button>
+      <button onClick={goToCheckout} className={`w-full border mt-2 py-2 rounded-lg ${isDarkMode ? 'border-green-500 text-green-400 hover:bg-green-900' : 'border-green-600 text-green-700 hover:bg-green-50'}`}>Buy Now</button>
 
       <p className={`text-xs text-center mt-2 ${isDarkMode ? 'text-gray-400' : 'text-gray-500'}`}>30-Day Money-Back Guarantee</p>
 
       <ul className={`text-sm mt-5 space-y-2 ${isDarkMode ? 'text-gray-300' : 'text-gray-700'}`}>
-        {selectedPlan.features.map((feat, idx) => (
-          <li key={idx}>* {feat}</li>
-        ))}
+        {selectedPlan.features.map((feat, idx) => (<li key={idx}>* {feat}</li>))}
       </ul>
 
       <div className="mt-6">
         <label htmlFor="coupon-code" className={`text-sm font-medium block mb-1 ${isDarkMode ? 'text-gray-300' : 'text-gray-700'}`}>Apply Coupon</label>
-        <input
-          id="coupon-code"
-          type="text"
-          placeholder="Enter coupon code"
-          className={`w-full border px-3 py-2 rounded text-sm mb-2 ${isDarkMode ? 'bg-gray-700 border-gray-600 text-gray-100 placeholder-gray-400' : 'border-gray-300 text-gray-900'}`}
-        />
-        <button className="w-full bg-green-600 hover:bg-green-700 text-white py-2 rounded-md text-sm font-semibold">
-          Apply Coupon
-        </button>
+        <input id="coupon-code" type="text" placeholder="Enter coupon code" className={`w-full border px-3 py-2 rounded text-sm mb-2 ${isDarkMode ? 'bg-gray-700 border-gray-600 text-gray-100 placeholder-gray-400' : 'border-gray-300 text-gray-900'}`} />
+        <button className="w-full bg-green-600 hover:bg-green-700 text-white py-2 rounded-md text-sm font-semibold">Apply Coupon</button>
       </div>
     </div>
   );
 
   return (
     <div className={`min-h-screen pb-40 relative font-[Poppins] ${isDarkMode ? 'bg-gray-900 text-gray-100' : 'bg-green-50 text-gray-900'}`}>
-      {/* Dark Mode Toggle */}
       <div className="fixed top-4 right-4 z-50">
-        <button
-          onClick={toggleDarkMode}
-          className={`p-3 rounded-full shadow-lg ${isDarkMode ? 'bg-gray-700 text-yellow-300' : 'bg-white text-gray-800'}`}
-          aria-label="Toggle dark mode"
-        >
+        <button onClick={toggleDarkMode} className={`p-3 rounded-full shadow-lg ${isDarkMode ? 'bg-gray-700 text-yellow-300' : 'bg-white text-gray-800'}`} aria-label="Toggle dark mode">
           {isDarkMode ? <FaSun className="text-xl" /> : <FaMoon className="text-xl" />}
         </button>
       </div>
 
-      {/* Top Banner - Enlarged */}
       <div className="w-full h-[300px] sm:h-[400px] md:h-[480px] overflow-hidden mb-6">
         <img src={bannerImg} alt="Banner" className="w-full h-full object-cover object-center" />
       </div>
 
-      {/* Main Content Area - Constrained Width */}
       <div ref={mainContentRef} className="px-4 sm:px-6 md:px-16">
         <div className="flex flex-col md:flex-row max-w-7xl mx-auto gap-10">
-          {/* Left Section - Main Content */}
           <div className="w-full md:w-[66%] space-y-6 md:pr-8">
             <div className="flex items-center gap-3 mb-2">
               <img src={categoryIcon} alt="Category Icon" className="w-10 h-10 object-contain" />
               <p className={`text-sm ${isDarkMode ? 'text-green-400' : 'text-green-700'}`}>Legal Services {'>'} FSSAI License</p>
             </div>
-            <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold leading-tight">
-              Get Your FSSAI License with Expert Guidance
-            </h1>
+            <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold leading-tight">Get Your FSSAI License with Expert Guidance</h1>
+            <p className={`text-base sm:text-lg ${isDarkMode ? 'text-gray-300' : 'text-gray-700'}`}>Whether you're a home kitchen, café, cloud kitchen, or multi-outlet restaurant, we’ll help you apply, submit documents, and get your FSSAI Basic, State, or Central license smoothly.</p>
 
-            <p className={`text-base sm:text-lg ${isDarkMode ? 'text-gray-300' : 'text-gray-700'}`}>
-              Whether you're a home kitchen, café, cloud kitchen, or multi-outlet restaurant, we’ll help you apply, submit documents, and get your FSSAI Basic, State, or Central license smoothly.
-            </p>
-
-            {/* Plan Selector and Image side-by-side */}
             <div className={`flex flex-col md:flex-row border rounded-lg shadow p-4 gap-6 ${isDarkMode ? 'bg-gray-800 border-gray-700' : 'bg-white'}`}>
               <div className="md:w-1/2 space-y-3">
                 <label htmlFor="main-plan-select" className={`block text-sm font-medium ${isDarkMode ? 'text-gray-300' : 'text-gray-700'}`}>Select License Plan</label>
@@ -1644,25 +1601,14 @@ const FssaiLicenseCourse = () => {
                     <option key={plan.label} value={plan.label}>{plan.label}</option>
                   ))}
                 </select>
-
                 <div className="flex items-center gap-2">
                   <label htmlFor="quantity-input" className={`text-sm font-medium ${isDarkMode ? 'text-gray-300' : 'text-gray-700'}`}>Quantity:</label>
-                  <input
-                    id="quantity-input"
-                    type="number"
-                    value={quantity}
-                    min={1}
-                    onChange={(e) => setQuantity(Number(e.target.value))}
-                    className={`w-20 px-2 py-1 border rounded ${isDarkMode ? 'bg-gray-700 border-gray-600 text-gray-100' : 'bg-white border-gray-300'}`}
-                  />
+                  <input id="quantity-input" type="number" value={quantity} min={1} onChange={(e) => setQuantity(Number(e.target.value))} className={`w-20 px-2 py-1 border rounded ${isDarkMode ? 'bg-gray-700 border-gray-600 text-gray-100' : 'bg-white border-gray-300'}`} />
                 </div>
-
                 <div className={`rounded p-4 mt-4 ${isDarkMode ? 'bg-green-900 text-green-200' : 'bg-green-100'}`}>
                   <h3 className={`font-semibold mb-2 ${isDarkMode ? 'text-green-100' : 'text-green-800'}`}>2 Exclusive Offers</h3>
                   <ul className={`list-disc pl-4 text-sm ${isDarkMode ? 'text-green-300' : 'text-green-700'} space-y-1`}>
-                    {selectedPlan.features.map((feat, idx) => (
-                      <li key={idx}>* {feat}</li>
-                    ))}
+                    {selectedPlan.features.map((feat, idx) => (<li key={idx}>* {feat}</li>))}
                   </ul>
                 </div>
               </div>
@@ -1671,14 +1617,9 @@ const FssaiLicenseCourse = () => {
               </div>
             </div>
 
-            {/* Mobile Checkout Bar (Visible only on mobile) */}
-            <div className="mt-8 md:hidden">
-              {renderCheckoutCard(true)}
-            </div>
-
+            <div className="mt-8 md:hidden">{renderCheckoutCard(true)}</div>
             <FssaiWhatYouGet isDarkMode={isDarkMode} />
-            <FssaiEligibility isDarkMode={isDarkMode}/>
-
+            <FssaiEligibility isDarkMode={isDarkMode} />
             <h3 className="text-2xl font-semibold mb-6 mt-10">Why Choose Us?</h3>
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
               {[{
@@ -1697,34 +1638,22 @@ const FssaiLicenseCourse = () => {
                 </div>
               ))}
             </div>
-
             <FssaiFAQ isDarkMode={isDarkMode} />
           </div>
-
-          {/* Right Sticky Checkout Bar (Hidden on Mobile, visible on MD and up) */}
           <div className="hidden md:block md:w-[34%] relative">
-            <div className="md:sticky md:top-6">
-              {renderCheckoutCard()}
-            </div>
+            <div className="md:sticky md:top-6">{renderCheckoutCard()}</div>
           </div>
         </div>
-      </div> {/* End of the constrained main content div */}
+      </div>
 
-      {/* Render SiteFooter outside the constrained main content div */}
-      <SiteFooter isDarkMode={isDarkMode}/>
+      <SiteFooter isDarkMode={isDarkMode} />
 
-      {/* Mobile Bottom Floating Summary */}
       <div className={`fixed md:hidden bottom-0 left-0 right-0 shadow-inner px-4 py-3 z-50 border-t flex items-center justify-between ${isDarkMode ? 'bg-gray-800 border-gray-700 text-gray-100' : 'bg-white'}`}>
         <div>
           <h4 className="text-lg font-semibold">Rs.{totalPrice}</h4>
           <p className={`text-xs truncate max-w-[180px] ${isDarkMode ? 'text-gray-400' : 'text-gray-600'}`}>{selectedPlan.label}</p>
         </div>
-        <button
-          onClick={() => navigate('/checkout/fssai')}
-          className="bg-green-600 text-white px-4 py-2 rounded-md text-sm hover:bg-green-700"
-        >
-          Continue
-        </button>
+        <button onClick={goToCheckout} className="bg-green-600 text-white px-4 py-2 rounded-md text-sm hover:bg-green-700">Continue</button>
       </div>
     </div>
   );

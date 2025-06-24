@@ -1055,13 +1055,15 @@ const ZomatoOnboardingCourse = () => {
   };
 
   // Handle navigation with selected plan
-  const handleProceedToCart = () => {
-    navigate(`/checkout/zomato?plan=${selectedPlan}`);
-  };
+ const handleProceedToCart = () => {
+  const planSlug = selectedPlan === "planA" ? "zomato-starter" : "zomato-pro";
+  navigate(`/checkout/${planSlug}`);
+};
+ const handleBuyNow = () => {
+  const planSlug = selectedPlan === "planA" ? "zomato-starter" : "zomato-pro";
+  navigate(`/checkout/${planSlug}`);
+};
 
-  const handleBuyNow = () => {
-    navigate(`/checkout/zomato/buy?plan=${selectedPlan}`);
-  };
 
   // Helper function to render the checkout card for reusability
   const renderCheckoutCard = (isMobile = false) => (
