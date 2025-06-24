@@ -159,6 +159,7 @@ import swiggyImg from '../../../assets/zomato3.png';
 import { FaTv, FaDownload, FaSatelliteDish, FaSmile } from 'react-icons/fa';
 import SwiggyFAQ from './SwiggyFAQ';
 import SwiggyWhatYouGet from './SwiggyWhatYouGet';
+import DocumentsRequired from './DocumentsRequired';
 
 const SwiggyOnboardingCourse = () => {
   const navigate = useNavigate();
@@ -206,6 +207,7 @@ const SwiggyOnboardingCourse = () => {
             <p className="text-sm text-gray-500">Last updated 06/2025 • Hindi & English</p>
 
             <div className="mt-10">
+            <DocumentsRequired/>
               <SwiggyWhatYouGet />
               <h3 className="text-2xl font-semibold mb-6">More reasons to onboard</h3>
               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">

@@ -71,7 +71,8 @@ const faqData = [
   },
 ];
 
-const FssaiFAQ = () => {
+// Accept isDarkMode as a prop
+const FssaiFAQ = ({ isDarkMode }) => {
   const [expandedIndex, setExpandedIndex] = useState(null);
   const [showAll, setShowAll] = useState(false);
 
@@ -82,23 +83,47 @@ const FssaiFAQ = () => {
   const visibleFaqs = showAll ? faqData : faqData.slice(0, 5);
 
   return (
-    <div className="bg-gradient-to-br from-lime-50 to-green-100 py-16 px-4 sm:px-6 md:px-20 font-poppins">
+    <div
+      // Main container background and text color
+      className={`py-16 px-4 sm:px-6 md:px-20 font-poppins ${
+        isDarkMode ? 'bg-gray-900 text-gray-100' : 'bg-gradient-to-br from-lime-50 to-green-100 text-gray-900'
+      }`}
+    >
       <div className="max-w-5xl mx-auto">
-        <h2 className="text-3xl sm:text-4xl font-bold text-center text-green-900 mb-8">
+        <h2
+          // Heading text color
+          className={`text-3xl sm:text-4xl font-bold text-center mb-8 ${
+            isDarkMode ? 'text-lime-400' : 'text-green-900'
+          }`}
+        >
           Frequently Asked Questions
         </h2>
 
         <div className="space-y-4">
           {visibleFaqs.map((faq, index) => (
-            <div key={index} className="bg-white rounded-lg shadow-md overflow-hidden">
+            <div
+              key={index}
+              // Individual FAQ item background and shadow
+              className={`rounded-lg shadow-md overflow-hidden ${
+                isDarkMode ? 'bg-gray-800' : 'bg-white'
+              }`}
+            >
               <button
                 onClick={() => handleToggle(index)}
-                className="w-full text-left px-5 py-4 font-medium text-gray-800 focus:outline-none hover:bg-green-50"
+                // FAQ button (question) text and hover background color
+                className={`w-full text-left px-5 py-4 font-medium focus:outline-none ${
+                  isDarkMode ? 'text-gray-100 hover:bg-gray-700' : 'text-gray-800 hover:bg-green-50'
+                }`}
               >
                 {faq.q}
               </button>
               {expandedIndex === index && (
-                <div className="px-5 pb-4 text-sm text-gray-600">
+                <div
+                  // FAQ answer text color
+                  className={`px-5 pb-4 text-sm ${
+                    isDarkMode ? 'text-gray-300' : 'text-gray-600'
+                  }`}
+                >
                   {faq.a}
                 </div>
               )}
@@ -110,7 +135,10 @@ const FssaiFAQ = () => {
           <div className="text-center mt-6">
             <button
               onClick={() => setShowAll(true)}
-              className="bg-green-600 text-white px-5 py-2 rounded-full hover:bg-green-700 transition"
+              // "Show More Questions" button background and text color
+              className={`px-5 py-2 rounded-full transition ${
+                isDarkMode ? 'bg-lime-600 text-white hover:bg-lime-700' : 'bg-green-600 text-white hover:bg-green-700'
+              }`}
             >
               Show More Questions
             </button>

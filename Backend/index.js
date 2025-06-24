@@ -87,6 +87,7 @@ import downloadRoutes from './routes/downloadRoutes.js';
 // import { resendOTP } from './controllers/authController.js';
 import cashfreeRoutes from "./routes/cashfreeRoutes.js"; // ✅ correct
 import  adminAuthConfig from "./routes/adminAuthConfig.js";
+import payment from './routes/payment.js'
 // import { registerUser } from "./controllers/authController.js"; 
 
 
@@ -126,6 +127,7 @@ app.use('/api/auth', authRoutes);
 // app.use('/api/admin', adminRoutes);
 
 app.use('/api/cashfree', cashfreeRoutes);
+app.use('/api/success', payment);
 
 
 // MongoDB connection and server startup

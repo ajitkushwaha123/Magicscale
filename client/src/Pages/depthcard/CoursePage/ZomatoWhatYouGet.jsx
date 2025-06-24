@@ -1,132 +1,125 @@
-import React from 'react';
-import { FaCheckCircle } from 'react-icons/fa';
+import React, { useState } from 'react';
+import { FaCheckCircle, FaChevronDown, FaChevronUp } from 'react-icons/fa';
+import { motion, AnimatePresence } from 'framer-motion';
 
+const items = [
+  "Full Zomato Registration — PAN, GST, FSSAI setup assistance",
+  "Menu Upload with categories, pricing, and dish images",
+  "Restaurant Logo, Banner, QR Code, and Menu Card Design",
+  "Payment Integration (Cashfree, Razorpay, UPI setup)",
+  "Delivery Activation — Radius, Partner enablement & dashboard",
+  "Listing Optimization — SEO, location tags, photo gallery",
+  "WhatsApp Support for document collection & live chat",
+  "Expert guidance to get faster Zomato approval"
+];
 
-const ZomatoWhatYouGet = () => {
+// Ensure you are accepting the isDarkMode prop here
+const ZomatoWhatYouGet = ({ isDarkMode }) => {
+  const [expanded, setExpanded] = useState(false);
+  const [selectedItem, setSelectedItem] = useState(null);
+  const visibleItems = expanded ? items : items.slice(0, 4);
+
   return (
-    <div className="bg-blue-150 text-gray-800 py-10 px-15 md:px-1 font-poppins">
-      <div className="max-w-5xl mx-auto bg-white rounded-xl shadow-lg p-8">
-        {/* ✅ Header Section */}
-        <div className="mb-6">
+    <section
+      // Main section background and text color
+      className={`py-12 px-4 sm:px-8 md:px-12 font-poppins ${
+        isDarkMode ? 'bg-gray-900 text-gray-100' : 'bg-[#e6f0ff] text-gray-800' // <-- Light mode: bg-[#e6f0ff] text-gray-800
+      }`}
+    >
+      <div
+        // Inner content box background and text color
+        className={`max-w-5xl mx-auto rounded-xl shadow-lg p-6 sm:p-8 ${
+          isDarkMode ? 'bg-gray-800 text-gray-100' : 'bg-white text-gray-900' // <-- Light mode: bg-white text-gray-900
+        }`}
+      >
+        <h2
+          // Heading text color
+          className={`text-2xl sm:text-3xl font-bold mb-6 text-center sm:text-left ${
+            isDarkMode ? 'text-purple-400' : 'text-blue-900' // <-- Light mode: text-blue-900
+          }`}
+        >
+          What You'll Get
+        </h2>
 
-          <h2 className="text-3xl font-bold text-blue-1000 mb-2">What you'll get</h2>
-          {/* <div className="flex flex-wrap gap-2 text-sm">
-            <span className="bg-green-100 text-green-700 px-3 py-1 rounded-full font-medium">PAN/GST/FSSAI</span>
-            <span className="bg-indigo-100 text-indigo-700 px-3 py-1 rounded-full font-medium">Menu Design</span>
-            <span className="bg-yellow-100 text-yellow-700 px-3 py-1 rounded-full font-medium">Delivery Activation</span>
-            <span className="bg-pink-100 text-pink-700 px-3 py-1 rounded-full font-medium">WhatsApp Support</span>
-          </div> */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-5 text-sm">
+          <AnimatePresence>
+            {visibleItems.map((item, idx) => (
+              <motion.div
+                key={idx}
+                // Individual item text and hover background color
+                className={`flex items-start gap-3 cursor-pointer rounded p-2 transition ${
+                  isDarkMode ? 'hover:bg-gray-700 text-gray-300' : 'hover:bg-blue-100 text-gray-700' // <-- Light mode: hover:bg-blue-100 text-gray-700
+                }`}
+                onClick={() => setSelectedItem(item)}
+                initial={{ opacity: 0, y: 10 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: 10 }}
+                transition={{ delay: idx * 0.05, duration: 0.3 }}
+              >
+                <FaCheckCircle
+                  // Checkmark icon color
+                  className={`${isDarkMode ? 'text-purple-500' : 'text-blue-600'} mt-1 flex-shrink-0`} // <-- Light mode: text-blue-600
+                />
+                <p>{item}</p>
+              </motion.div>
+            ))}
+          </AnimatePresence>
         </div>
 
-        {/* ✅ Detailed List */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-5 text-sm">
-          <ul className="space-y-3">
-            <li className="flex items-start gap-3">
-              <FaCheckCircle className="text-green-500 mt-1" />
-              Full Zomato Registration — PAN, GST, FSSAI setup assistance
-            </li>
-            <li className="flex items-start gap-3">
-              <FaCheckCircle className="text-green-500 mt-1" />
-              Menu Upload with categories, pricing, and dish images
-            </li>
-            <li className="flex items-start gap-3">
-              <FaCheckCircle className="text-green-500 mt-1" />
-              Restaurant Logo, Banner, QR Code, and Menu Card Design
-            </li>
-            <li className="flex items-start gap-3">
-              <FaCheckCircle className="text-green-500 mt-1" />
-              Payment Integration (Cashfree, Razorpay, UPI setup)
-            </li>
-          </ul>
-          <ul className="space-y-3">
-            <li className="flex items-start gap-3">
-              <FaCheckCircle className="text-green-500 mt-1" />
-              Delivery Activation — Radius, Partner enablement & dashboard
-            </li>
-            <li className="flex items-start gap-3">
-              <FaCheckCircle className="text-green-500 mt-1" />
-              Listing Optimization — SEO, location tags, photo gallery
-            </li>
-            <li className="flex items-start gap-3">
-              <FaCheckCircle className="text-green-500 mt-1" />
-              WhatsApp Support for document collection & live chat
-            </li>
-            <li className="flex items-start gap-3">
-              <FaCheckCircle className="text-green-500 mt-1" />
-              Expert guidance to get faster Zomato approval
-            </li>
-          </ul>
+        {/* Toggle Button */}
+        <div className="text-center mt-8">
+          <button
+            onClick={() => setExpanded(!expanded)}
+            // Toggle button background and text color
+            className={`px-5 py-2 rounded-md transition inline-flex items-center gap-2 text-sm sm:text-base ${
+              isDarkMode
+                ? 'bg-purple-600 text-white hover:bg-purple-700'
+                : 'bg-blue-600 text-white hover:bg-blue-700' // <-- Light mode: bg-blue-600 text-white hover:bg-blue-700
+            }`}
+          >
+            {expanded ? (
+              <>
+                View Less <FaChevronUp />
+              </>
+            ) : (
+              <>
+                View All Items <FaChevronDown />
+              </>
+            )}
+          </button>
         </div>
       </div>
-    </div>
+
+      {/* Modal */}
+      {selectedItem && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50">
+          <div
+            // Modal background and text color
+            className={`p-6 rounded-lg shadow-lg max-w-md w-full mx-4 ${isDarkMode ? 'bg-gray-700 text-gray-100' : 'bg-white text-gray-800'}`} // <-- Light mode: bg-white text-gray-800
+          >
+            <h3
+              // Modal heading color
+              className={`text-xl font-semibold mb-4 ${isDarkMode ? 'text-purple-400' : 'text-blue-900'}`} // <-- Light mode: text-blue-900
+            >
+              📦 Service Details
+            </h3>
+            <p className={`${isDarkMode ? 'text-gray-300' : 'text-gray-700'} mb-4`}>{selectedItem}</p> {/* <-- Light mode: text-gray-700 */}
+            <div className="text-right">
+              <button
+                onClick={() => setSelectedItem(null)}
+                // Modal close button color
+                className={`px-4 py-2 rounded hover:bg-blue-700 transition ${
+                  isDarkMode ? 'bg-purple-600 text-white hover:bg-purple-700' : 'bg-blue-600 text-white' // <-- Light mode: bg-blue-600 text-white
+                }`}
+              >
+                Close
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+    </section>
   );
 };
 
 export default ZomatoWhatYouGet;
-
-
-
-
-
-
-
-
-
-// import React from 'react';
-// import { FaCheckCircle } from 'react-icons/fa';
-
-// const ZomatoWhatYouGet = () => {
-//   return (
-//     <div className="bg-blue-50 text-gray-800 py-16 px-6 md:px-5 font-poppins">
-//       <div className="max-w-6xl mx-auto bg-white rounded-3xl shadow-2xl p-10 md:p-16">
-//         {/* ✅ Header Section */}
-//         <div className="mb-10">
-//           <div className="text-sm text-gray-500 mb-2">Updated June 2025 • Hindi & English</div>
-//           <h2 className="text-4xl font-bold text-blue-900 mb-4">What you'll get</h2>
-//         </div>
-
-//         {/* ✅ Detailed List */}
-//         <div className="grid grid-cols-1 md:grid-cols-2 gap-8 text-base md:text-lg">
-//           <ul className="space-y-5">
-//             <li className="flex items-start gap-4">
-//               <FaCheckCircle className="text-green-500 mt-1 text-xl" />
-//               Full Zomato Registration — PAN, GST, FSSAI setup assistance
-//             </li>
-//             <li className="flex items-start gap-4">
-//               <FaCheckCircle className="text-green-500 mt-1 text-xl" />
-//               Menu Upload with categories, pricing, and dish images
-//             </li>
-//             <li className="flex items-start gap-4">
-//               <FaCheckCircle className="text-green-500 mt-1 text-xl" />
-//               Restaurant Logo, Banner, QR Code, and Menu Card Design
-//             </li>
-//             <li className="flex items-start gap-4">
-//               <FaCheckCircle className="text-green-500 mt-1 text-xl" />
-//               Payment Integration (Cashfree, Razorpay, UPI setup)
-//             </li>
-//           </ul>
-//           <ul className="space-y-5">
-//             <li className="flex items-start gap-4">
-//               <FaCheckCircle className="text-green-500 mt-1 text-xl" />
-//               Delivery Activation — Radius, Partner enablement & dashboard
-//             </li>
-//             <li className="flex items-start gap-4">
-//               <FaCheckCircle className="text-green-500 mt-1 text-xl" />
-//               Listing Optimization — SEO, location tags, photo gallery
-//             </li>
-//             <li className="flex items-start gap-4">
-//               <FaCheckCircle className="text-green-500 mt-1 text-xl" />
-//               WhatsApp Support for document collection & live chat
-//             </li>
-//             <li className="flex items-start gap-4">
-//               <FaCheckCircle className="text-green-500 mt-1 text-xl" />
-//               Expert guidance to get faster Zomato approval
-//             </li>
-//           </ul>
-//         </div>
-//       </div>
-//     </div>
-//   );
-// };
-
-// export default ZomatoWhatYouGet;

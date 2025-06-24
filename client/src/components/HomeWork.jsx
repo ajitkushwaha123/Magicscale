@@ -118,7 +118,7 @@ import { Link } from "react-router-dom";
 import zomatoImg from "../assets/zomato.png";
 // import swiggyImg from "../assets/swiggy.png";
 
-// import swiggyImg from "../assets/swiggy.png";
+import swiggyImg from "../assets/swiggynew2.png";
 
 import fssaiImg from "../assets/fssai.png";
 
@@ -132,7 +132,7 @@ const services = [
   {
     title: "Swiggy Setup",
     icon: <FaMotorcycle size={24} />,
-    // image: swiggyImg,
+    image: swiggyImg,
     path: "/services/swiggy",
   },
   {

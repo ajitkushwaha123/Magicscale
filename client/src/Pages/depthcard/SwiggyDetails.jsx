@@ -1,6 +1,6 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
-import swiggyImg from '../../assets/zomato3.png'; // ✅ Make sure this image exists
+import swiggyImg from '../../assets/swiggynew1.png'; // ✅ Make sure this image exists
 
 const SwiggyPage = () => {
   const navigate = useNavigate();

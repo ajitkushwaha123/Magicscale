@@ -71,15 +71,20 @@ function App() {
           }
         />
         {/* <Route path="/dashboard" element={<UserDashboard />} /> */}
-        {/* <Route path="/checkout/:id" element={<Checkout />} />  */}
-        <Route
-          path="/checkout/:id"
-          element={
-            <ProtectedRoute allowedRoles={['user']}>
-              <Checkout />
-            </ProtectedRoute>
-          }
-        />
+      <Route
+  path="/checkout/:id"
+  element={
+    window.location.pathname === '/checkout/fssai' ? (
+      <Checkout />
+    ) : (
+      <ProtectedRoute allowedRoles={['user']}>
+        <Checkout />
+      </ProtectedRoute>
+    )
+  }
+/>
+  {/* <Route path="/checkout/:id" element={<Checkout />} />  */}
+      
           <Route
           path="/Subscriptions"
           element={

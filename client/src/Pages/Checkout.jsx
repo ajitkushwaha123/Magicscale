@@ -538,16 +538,278 @@
 
 
 
+// import React, { useState, useEffect } from "react";
+// import { useParams, useLocation } from "react-router-dom";
+// import { FaCheckCircle } from "react-icons/fa";
+// import { motion } from "framer-motion";
+
+// // const API_BASE = "https://magicscale.in";
+// const API_BASE = "https://magicscale-backend.onrender.com";
+
+// // const API_BASE = "http://localhost:5000";  // or your actual backend port
+
+// const discountMap = { 1: 10, 3: 25, 6: 30, 12: 40 };
+
+// const Checkout = () => {
+//   const { id } = useParams();
+//   const location = useLocation();
+//   const queryParams = new URLSearchParams(location.search);
+//   const queryMonths = parseInt(queryParams.get("months"), 10);
+
+//   const [plan, setPlan] = useState(null);
+//   const [error, setError] = useState(null);
+//   const [duration, setDuration] = useState(queryMonths || 12);
+//   const [formData, setFormData] = useState({ name: "", email: "", phone: "", address: "" });
+//   const [sdkLoaded, setSdkLoaded] = useState(false);
+//   const [cashfree, setCashfree] = useState(null);
+//   const [loading, setLoading] = useState(false);
+
+//   useEffect(() => {
+//     const fetchPlan = async () => {
+//       try {
+//         const planId = id;
+//         if (!planId) {
+//           setError("Invalid plan ID");
+//           return;
+//         }
+//         const res = await fetch(`${API_BASE}/api/plan/${planId}`);
+//         if (!res.ok) throw new Error("Failed to fetch plan");
+//         const data = await res.json();
+//         setPlan(data);
+//       } catch (err) {
+//         setError("Could not load plan data");
+//       }
+//     };
+
+//     fetchPlan();
+//   }, [id]);
+
+//   useEffect(() => {
+//     const script = document.createElement("script");
+//     script.src = "https://sdk.cashfree.com/js/v3/cashfree.js";
+//     script.async = true;
+//     script.onload = () => {
+//       if (window.Cashfree) {
+//         const cf = window.Cashfree({ mode: "production" });
+//         setCashfree(cf);
+//         setSdkLoaded(true);
+//       }
+//     };
+//     document.body.appendChild(script);
+//     return () => document.body.removeChild(script);
+//   }, []);
+
+//   const handleInputChange = (e) => {
+//     setFormData({ ...formData, [e.target.name]: e.target.value });
+//   };
+
+//   const handleCashfreePayment = async () => {
+//     if (!sdkLoaded || !cashfree || !formData.name || !formData.email || !formData.phone) {
+//       alert("Please fill all required fields.");
+//       return;
+//     }
+
+//     const discount = discountMap[duration] || 0;
+//     const discountedMonthlyPrice = plan.price * (1 - discount / 100);
+//     const totalPrice = Math.round(discountedMonthlyPrice * duration);
+
+//     setLoading(true);
+//     try {
+//       const res = await fetch(`${API_BASE}/api/cashfree/initiate-payment`, {
+//         method: "POST",
+//         headers: { "Content-Type": "application/json" },
+//         body: JSON.stringify({ ...formData, planId: id.replace("plan-", ""), amount: totalPrice, duration })
+//       });
+//       const data = await res.json();
+//       if (!res.ok || !data.payment_session_id) throw new Error("Failed to initiate payment.");
+
+//       // ✅ Store details in localStorage for later confirmation
+//       localStorage.setItem("userId", "guest-user"); // replace with actual user ID if available
+//       localStorage.setItem("plan", plan.slug || id.replace("plan-", ""));
+//       localStorage.setItem("duration", duration);
+//       localStorage.setItem("amount", totalPrice);
+//       localStorage.setItem("email", formData.email);
+//       localStorage.setItem("name", formData.name);
+
+//       await cashfree.checkout({
+//         paymentSessionId: data.payment_session_id,
+//         returnUrl: `https://magicscale.in/payment-success?order_id=${data.order_id}`
+//       });
+//     } catch (err) {
+//       alert("Payment failed. Try again.");
+//     } finally {
+//       setLoading(false);
+//     }
+//   };
+
+//   if (error) return <div className="text-center text-red-500 py-10">{error}</div>;
+//   if (!plan) return <div className="text-center py-10 text-gray-500">Loading plan...</div>;
+
+//   const discount = discountMap[duration] || 0;
+//   const discountedMonthlyPrice = plan.price * (1 - discount / 100);
+//   const totalPrice = Math.round(discountedMonthlyPrice * duration);
+//   const isFormFilled = formData.name && formData.email && formData.phone;
+
+//   return (
+//     <div className="min-h-screen bg-gradient-to-br from-indigo-100 via-purple-100 to-pink-50 py-12 px-4">
+//       <div className="max-w-7xl mx-auto grid md:grid-cols-3 gap-8">
+//         <motion.div
+//           initial={{ opacity: 0, x: -50 }}
+//           animate={{ opacity: 1, x: 0 }}
+//           className="md:col-span-2 bg-white rounded-3xl shadow-xl p-8"
+//         >
+//           <h2 className="text-3xl font-extrabold text-indigo-700 mb-6 border-b pb-2">Checkout</h2>
+//           <div className="grid sm:grid-cols-2 gap-5">
+//             {["name", "email", "phone", "address"].map((field) => (
+//               <input
+//                 key={field}
+//                 name={field}
+//                 value={formData[field]}
+//                 onChange={handleInputChange}
+//                 placeholder={field.charAt(0).toUpperCase() + field.slice(1)}
+//                 className="border border-gray-300 focus:ring-2 focus:ring-indigo-400 focus:outline-none rounded-xl p-3 w-full"
+//                 required={field !== "address"}
+//               />
+//             ))}
+//           </div>
+
+//           <div className="mt-6">
+//             <h3 className="text-lg font-bold text-gray-800 mb-2">Duration</h3>
+//             <div className="flex gap-3 flex-wrap">
+//               {[1, 3, 6, 12].map((m) => (
+//                 <motion.button
+//                   key={m}
+//                   whileTap={{ scale: 0.95 }}
+//                   onClick={() => setDuration(m)}
+//                   className={`px-5 py-2 rounded-full border font-medium transition-all duration-300 ${
+//                     duration === m
+//                       ? "bg-indigo-600 text-white"
+//                       : "bg-white text-indigo-600 border-indigo-300"
+//                   }`}
+//                 >
+//                   {m} Month{m > 1 && "s"}
+//                 </motion.button>
+//               ))}
+//             </div>
+//           </div>
+
+//           <div className="mt-8">
+//             <h3 className="text-lg font-bold text-gray-800 mb-4">Plan Features</h3>
+//             <ul className="space-y-2">
+//               {plan.features.map((feature, index) => (
+//                 <motion.li
+//                   key={index}
+//                   initial={{ opacity: 0, x: 20 }}
+//                   animate={{ opacity: 1, x: 0 }}
+//                   transition={{ delay: index * 0.1 }}
+//                   className="flex items-center text-gray-700"
+//                 >
+//                   <FaCheckCircle className="text-green-500 mr-2" /> {feature}
+//                 </motion.li>
+//               ))}
+//             </ul>
+//           </div>
+//         </motion.div>
+
+//         <motion.div
+//           initial={{ opacity: 0, y: 30 }}
+//           animate={{ opacity: 1, y: 0 }}
+//           className="sticky top-20 bg-white rounded-3xl shadow-xl p-6"
+//         >
+//           <h3 className="text-2xl font-bold text-gray-900 mb-5 border-b pb-3">Order Summary</h3>
+//           <div className="space-y-3 text-sm">
+//             <div className="flex justify-between text-gray-600">
+//               <span>{plan.name}</span>
+//               <span>₹{plan.price.toLocaleString()} / month</span>
+//             </div>
+//             <div className="flex justify-between text-gray-600">
+//               <span>Duration</span>
+//               <span>{duration} Months</span>
+//             </div>
+//             {discount > 0 && (
+//               <div className="flex justify-between text-green-600">
+//                 <span>Discount ({discount}%)</span>
+//                 <span>- ₹{((plan.price * discount) / 100).toLocaleString()}</span>
+//               </div>
+//             )}
+//             <div className="flex justify-between font-semibold border-t pt-3">
+//               <span>Monthly Price</span>
+//               <span>₹{Math.round(discountedMonthlyPrice).toLocaleString()}</span>
+//             </div>
+//             <div className="flex justify-between text-lg font-bold border-t pt-4">
+//               <span>Total</span>
+//               <span>₹{totalPrice.toLocaleString()}</span>
+//             </div>
+//           </div>
+
+//           {loading ? (
+//             <button
+//               disabled
+//               className="mt-6 w-full bg-indigo-400 text-white py-2 rounded-xl flex justify-center items-center gap-2"
+//             >
+//               <svg className="animate-spin h-5 w-5" viewBox="0 0 24 24">
+//                 <circle
+//                   className="opacity-25"
+//                   cx="12"
+//                   cy="12"
+//                   r="10"
+//                   stroke="currentColor"
+//                   strokeWidth="4"
+//                   fill="none"
+//                 />
+//                 <path
+//                   className="opacity-75"
+//                   fill="currentColor"
+//                   d="M4 12a8 8 0 018-8v8z"
+//                 />
+//               </svg>
+//               Processing...
+//             </button>
+//           ) : (
+//             <button
+//               onClick={handleCashfreePayment}
+//               disabled={!isFormFilled}
+//               className={`mt-6 w-full py-2 rounded-xl font-semibold transition-all duration-300 text-white ${
+//                 isFormFilled ? "bg-indigo-600 hover:bg-indigo-700" : "bg-gray-300 cursor-not-allowed"
+//               }`}
+//             >
+//               Proceed to Payment
+//             </button>
+//           )}
+//         </motion.div>
+//       </div>
+//     </div>
+//   );
+// };
+
+// export default Checkout;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 import React, { useState, useEffect } from "react";
 import { useParams, useLocation } from "react-router-dom";
 import { FaCheckCircle } from "react-icons/fa";
 import { motion } from "framer-motion";
 
-// const API_BASE = "https://magicscale.in";
-const API_BASE = "https://magicscale-backend.onrender.com";
+// ✅ Safely load backend URL from .env, with fallback
+const API_BASE = import.meta.env.VITE_BACKEND_URL || "https://magicscale-backend.onrender.com";
 
-// const API_BASE = "http://localhost:5000";  // or your actual backend port
-
+// ✅ Discount map
 const discountMap = { 1: 10, 3: 25, 6: 30, 12: 40 };
 
 const Checkout = () => {
@@ -567,17 +829,16 @@ const Checkout = () => {
   useEffect(() => {
     const fetchPlan = async () => {
       try {
-        const planId = id;
-        if (!planId) {
+        if (!id) {
           setError("Invalid plan ID");
           return;
         }
-        const res = await fetch(`${API_BASE}/api/plan/${planId}`);
+        const res = await fetch(`${API_BASE}/api/plan/${id}`);
         if (!res.ok) throw new Error("Failed to fetch plan");
         const data = await res.json();
         setPlan(data);
       } catch (err) {
-        setError("Could not load plan data");
+        setError("Could not load plan data: " + err.message);
       }
     };
 
@@ -596,7 +857,11 @@ const Checkout = () => {
       }
     };
     document.body.appendChild(script);
-    return () => document.body.removeChild(script);
+    return () => {
+      if (document.body.contains(script)) {
+        document.body.removeChild(script);
+      }
+    };
   }, []);
 
   const handleInputChange = (e) => {
@@ -618,25 +883,31 @@ const Checkout = () => {
       const res = await fetch(`${API_BASE}/api/cashfree/initiate-payment`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ ...formData, planId: id.replace("plan-", ""), amount: totalPrice, duration })
+        body: JSON.stringify({ ...formData, planId: id, amount: totalPrice, duration }),
       });
-      const data = await res.json();
-      if (!res.ok || !data.payment_session_id) throw new Error("Failed to initiate payment.");
 
-      // ✅ Store details in localStorage for later confirmation
-      localStorage.setItem("userId", "guest-user"); // replace with actual user ID if available
-      localStorage.setItem("plan", plan.slug || id.replace("plan-", ""));
-      localStorage.setItem("duration", duration);
-      localStorage.setItem("amount", totalPrice);
-      localStorage.setItem("email", formData.email);
-      localStorage.setItem("name", formData.name);
+      const data = await res.json();
+
+      if (!res.ok || !data.payment_session_id) {
+        throw new Error(data.message || "Failed to initiate payment.");
+      }
+
+      localStorage.setItem("checkout_order", JSON.stringify({
+        name: formData.name,
+        email: formData.email,
+        phone: formData.phone,
+        planSlug: plan.slug || id,
+        total: totalPrice,
+        orderId: data.order_id,
+      }));
 
       await cashfree.checkout({
         paymentSessionId: data.payment_session_id,
-        returnUrl: `https://magicscale.in/payment-success?order_id=${data.order_id}`
+        returnUrl: `${window.location.origin}/payment-success?order_id=${data.order_id}`
       });
     } catch (err) {
-      alert("Payment failed. Try again.");
+      alert(`Payment failed: ${err.message}`);
+      setError(err.message);
     } finally {
       setLoading(false);
     }
@@ -724,12 +995,12 @@ const Checkout = () => {
             </div>
             <div className="flex justify-between text-gray-600">
               <span>Duration</span>
-              <span>{duration} Months</span>
+              <span>{duration} Month{duration > 1 ? "s" : ""}</span>
             </div>
             {discount > 0 && (
               <div className="flex justify-between text-green-600">
                 <span>Discount ({discount}%)</span>
-                <span>- ₹{((plan.price * discount) / 100).toLocaleString()}</span>
+                <span>- ₹{((plan.price * duration * discount) / 100).toLocaleString()}</span>
               </div>
             )}
             <div className="flex justify-between font-semibold border-t pt-3">
@@ -742,40 +1013,17 @@ const Checkout = () => {
             </div>
           </div>
 
-          {loading ? (
-            <button
-              disabled
-              className="mt-6 w-full bg-indigo-400 text-white py-2 rounded-xl flex justify-center items-center gap-2"
-            >
-              <svg className="animate-spin h-5 w-5" viewBox="0 0 24 24">
-                <circle
-                  className="opacity-25"
-                  cx="12"
-                  cy="12"
-                  r="10"
-                  stroke="currentColor"
-                  strokeWidth="4"
-                  fill="none"
-                />
-                <path
-                  className="opacity-75"
-                  fill="currentColor"
-                  d="M4 12a8 8 0 018-8v8z"
-                />
-              </svg>
-              Processing...
-            </button>
-          ) : (
-            <button
-              onClick={handleCashfreePayment}
-              disabled={!isFormFilled}
-              className={`mt-6 w-full py-2 rounded-xl font-semibold transition-all duration-300 text-white ${
-                isFormFilled ? "bg-indigo-600 hover:bg-indigo-700" : "bg-gray-300 cursor-not-allowed"
-              }`}
-            >
-              Proceed to Payment
-            </button>
-          )}
+          <button
+            onClick={handleCashfreePayment}
+            disabled={!isFormFilled || loading || !sdkLoaded}
+            className={`mt-6 w-full py-3 rounded-xl font-semibold transition-all duration-300 text-white text-lg ${
+              isFormFilled && !loading && sdkLoaded
+                ? "bg-indigo-600 hover:bg-indigo-700"
+                : "bg-gray-300 cursor-not-allowed"
+            }`}
+          >
+            {loading ? "Processing Payment..." : `Proceed to Pay ₹${totalPrice.toLocaleString()}`}
+          </button>
         </motion.div>
       </div>
     </div>
