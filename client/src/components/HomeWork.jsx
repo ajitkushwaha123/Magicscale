@@ -127,21 +127,25 @@ const services = [
     title: "Zomato Setup",
     icon: <FaUtensils size={24} />,
     image: zomatoImg,
-    path: "/services/zomato",
+    path: "/course/zomato-onboarding",
   },
   {
     title: "Swiggy Setup",
     icon: <FaMotorcycle size={24} />,
     image: swiggyImg,
-    path: "/services/swiggy",
+    path: "/course/swiggy-onboarding",
   },
   {
     title: "FSSAI License",
     icon: <FaCertificate size={24} />,
     image: fssaiImg,
-    path: "/services/fssai",
+    path: "/course/fssai-onboarding",
   },
 ];
+
+
+
+// ...imports remain the same
 
 const HomeServices = () => {
   return (
@@ -165,16 +169,16 @@ const HomeServices = () => {
         {services.slice(0, 2).map((service, idx) => (
           <Link to={service.path} key={idx} className="flex-1">
             <div
-              className={`relative h-[460px] rounded-3xl shadow-xl border border-white/30 
-                        bg-gradient-to-br from-sky-200 via-white to-sky-100 bg-opacity-80 
-                        backdrop-blur-sm p-4 hover:scale-105 transition-transform duration-500`}
+              className={`relative h-80 sm:h-96 md:h-[460px] rounded-3xl shadow-xl border border-white/30 
+                          bg-gradient-to-br from-sky-200 via-white to-sky-100 bg-opacity-80 
+                          backdrop-blur-sm p-4 hover:scale-105 transition-transform duration-500`}
             >
               <img
                 src={service.image}
                 alt={service.title}
-                className="w-full h-full object-contain rounded-xl"
+                className="w-full h-full max-h-full object-contain rounded-xl"
               />
-              <div className="absolute bottom-4 left-4 text-gray-800 text-xl font-bold flex items-center gap-2 drop-shadow-sm">
+              <div className="absolute bottom-4 left-4 text-gray-800 text-base sm:text-lg md:text-xl font-bold flex items-center gap-2 drop-shadow-sm">
                 <span>{service.icon}</span> {service.title}
               </div>
             </div>
@@ -184,18 +188,18 @@ const HomeServices = () => {
 
       {/* FSSAI Card */}
       <div className="mb-12 flex justify-center">
-        <Link to={services[2].path} className="w-[90%] md:w-[70%]">
+        <Link to={services[2].path} className="w-full sm:w-[90%] md:w-[70%]">
           <div
-            className={`relative h-[420px] rounded-3xl shadow-xl border border-white/30 
-                      bg-gradient-to-br from-sky-200 via-white to-sky-100 bg-opacity-80 
-                      backdrop-blur-sm p-4 hover:scale-105 transition-transform duration-500`}
+            className={`relative h-80 sm:h-96 md:h-[420px] rounded-3xl shadow-xl border border-white/30 
+                        bg-gradient-to-br from-sky-200 via-white to-sky-100 bg-opacity-80 
+                        backdrop-blur-sm p-4 hover:scale-105 transition-transform duration-500`}
           >
             <img
               src={services[2].image}
               alt={services[2].title}
-              className="w-full h-full object-contain rounded-xl"
+              className="w-full h-full max-h-full object-contain rounded-xl"
             />
-            <div className="absolute bottom-4 left-4 text-gray-800 text-xl font-bold flex items-center gap-2 drop-shadow-sm">
+            <div className="absolute bottom-4 left-4 text-gray-800 text-base sm:text-lg md:text-xl font-bold flex items-center gap-2 drop-shadow-sm">
               <span>{services[2].icon}</span> {services[2].title}
             </div>
           </div>

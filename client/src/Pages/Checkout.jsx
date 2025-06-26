@@ -2337,6 +2337,28 @@
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 import React, { useState, useEffect } from "react";
 import { useParams, useLocation } from "react-router-dom";
 import { FaCheckCircle, FaShoppingCart } from "react-icons/fa";
@@ -2350,6 +2372,12 @@ const validCoupons = {
   SAVE15: 15,
   SAVE20: 20,
 };
+
+// Only disable for basic-growth and premium-growth plans
+const disabledCouponPlans = [
+  "basic-growth",
+  "premium-growth",
+];
 
 const Checkout = () => {
   const { id } = useParams();
@@ -2412,8 +2440,14 @@ const Checkout = () => {
   };
 
   const handleApplyCoupon = () => {
-    const code = couponCode.trim().toUpperCase();
+    if (disabledCouponPlans.includes(id)) {
+      setCouponDiscount(0);
+      setCouponApplied(false);
+      setCouponError("❌ Coupon not applicable for this plan.");
+      return;
+    }
 
+    const code = couponCode.trim().toUpperCase();
     if (validCoupons[code]) {
       setCouponDiscount(validCoupons[code]);
       setCouponApplied(true);
@@ -2476,9 +2510,7 @@ const Checkout = () => {
 
   const discount = discountMap[duration] || 0;
   const discountedMonthly = plan.price * (1 - discount / 100);
-  let totalPrice = isOneTime
-    ? plan.price
-    : Math.round(discountedMonthly * duration);
+  let totalPrice = isOneTime ? plan.price : Math.round(discountedMonthly * duration);
   if (couponApplied && couponDiscount > 0) {
     totalPrice = Math.round(totalPrice * (1 - couponDiscount / 100));
   }
@@ -2616,3 +2648,6 @@ const Checkout = () => {
 };
 
 export default Checkout;
+
+
+
