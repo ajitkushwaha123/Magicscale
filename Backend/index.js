@@ -1,104 +1,34 @@
-
-// import express from "express";
-// import mongoose from "mongoose";
-// import cors from "cors";
-// import bcrypt from 'bcrypt';
-
-// // import crypto from 'crypto';
-// import dotenv from "dotenv";
-// // import { Cashfree } from 'cashfree-pg';
-// import PlanRoutes from "./routes/plan.js";
-
- 
-
-// import authRoutes from './routes/authRoutes.js';
-
-
-// import cashfreeRoutes from "./routes/cashfreeRoutes.js"; // ✅ correct
-// import  adminAuthConfig from "./routes/adminAuthConfig.js";
-
-
-
-// dotenv.config();
-
-// const app = express();
-
-// const allowedOrigins = ["http://localhost:5173", "https://magicscale.in"];
-
-// app.use(cors({
-//   origin: function (origin, callback) {
-//     if (!origin || allowedOrigins.includes(origin)) {
-//       callback(null, true);
-//     } else {
-//       callback(new Error("Not allowed by CORS"));
-//     }
-//   },
-//   credentials: true,
-// }));
-
-// app.use(express.json());
-
-// // Routes
-// app.use("/api/plan", PlanRoutes);
-// app.use('/api/admin', adminAuthConfig);
-
-
-// app.use('/api/auth', authRoutes);
-// // app.use('/api/admin', adminRoutes);
-
-// app.use('/api/cashfree', cashfreeRoutes);
-
-
-// // MongoDB connection and server startup
-// const PORT = process.env.PORT || 5000;
-
-// mongoose.connect(process.env.MONGO_URI)
-//   .then(() => {
-//     console.log("MongoDB connected successfully");
-//     app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
-//   })
-//   .catch((err) => console.error("MongoDB connection error:", err));
-
-
-
-
-
-
-
-
 import express from "express";
 import mongoose from "mongoose";
 import cors from "cors";
-import bcrypt from 'bcrypt';
-import userRoutes from './routes/userRoutes.js'; // Adjust path if different
-import path from 'path';
-
-
-// import crypto from 'crypto';
 import dotenv from "dotenv";
-// import { Cashfree } from 'cashfree-pg';
+import path from "path";
+
+// Import routes
 import PlanRoutes from "./routes/plan.js";
-import adminRoutes from './routes/adminRoutes.js'
+import adminRoutes from "./routes/adminRoutes.js";
+import adminAuthConfig from "./routes/adminAuthConfig.js";
+import authRoutes from "./routes/authRoutes.js";
+import userRoutes from "./routes/userRoutes.js";
+import subscriptionRoutes from "./routes/subscriptionRoutes.js";
+import cashfreeRoutes from "./routes/cashfreeRoutes.js";
+import paymentRoutes from "./routes/payment.js";
+import downloadRoutes from "./routes/downloadRoutes.js";
 
- 
-import subscriptionRoutes from './routes/subscriptionRoutes.js';
-import authRoutes from './routes/authRoutes.js';
-import downloadRoutes from './routes/downloadRoutes.js';
-// import { resendOTP } from './controllers/authController.js';
-import cashfreeRoutes from "./routes/cashfreeRoutes.js"; // ✅ correct
-import  adminAuthConfig from "./routes/adminAuthConfig.js";
-import payment from './routes/payment.js'
-// import { registerUser } from "./controllers/authController.js"; 
-
-
-
+// Load env vars
 dotenv.config();
 
 const app = express();
+const PORT = process.env.PORT || 5000;
+const __dirname = path.resolve();
 
+// Optional: trust proxy if deployed behind one (e.g. Vercel, NGINX)
+app.set("trust proxy", 1);
+
+// Allowed frontend origins
 const allowedOrigins = ["http://localhost:5173", "https://magicscale.in"];
 
-app.use(cors({
+const corsOptions = {
   origin: function (origin, callback) {
     if (!origin || allowedOrigins.includes(origin)) {
       callback(null, true);
@@ -107,35 +37,35 @@ app.use(cors({
     }
   },
   credentials: true,
-}));
+  methods: "GET,POST,PUT,PATCH,DELETE,OPTIONS",
+  allowedHeaders: "Origin,X-Requested-With,Content-Type,Accept,Authorization",
+};
 
+// Middlewares
+app.use(cors(corsOptions));
 app.use(express.json());
+app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 
-// Routes
+// API Routes
 app.use("/api/plan", PlanRoutes);
-app.use('/api/admin', adminAuthConfig);
-app.use('/uploads', express.static(path.resolve('uploads')));
-app.use('/api', adminRoutes);
-app.use('/api', downloadRoutes);
-// router.post('/resend-otp', resendOTP);
-// Routes
-app.use('/api/user', userRoutes);
-app.use('/api', subscriptionRoutes);
-// app.use('/api/auth/verify-otp', verifyOtp); // Assuming you have a route for OTP verification
+app.use("/api/admin", adminAuthConfig);
+app.use("/api", adminRoutes);
+app.use("/api", downloadRoutes);
+app.use("/api/user", userRoutes);
+app.use("/api", subscriptionRoutes);
+app.use("/api/auth", authRoutes);
+app.use("/api/cashfree", cashfreeRoutes);
+app.use("/api/success", paymentRoutes);
 
-app.use('/api/auth', authRoutes);
-// app.use('/api/admin', adminRoutes);
-
-app.use('/api/cashfree', cashfreeRoutes);
-app.use('/api/success', payment);
-
-
-// MongoDB connection and server startup
-const PORT = process.env.PORT || 5000;
-
-mongoose.connect(process.env.MONGO_URI)
-  .then(() => {
-    console.log("MongoDB connected successfully");
-    app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
-  })
-  .catch((err) => console.error("MongoDB connection error:", err));
+// MongoDB connection and start server
+mongoose.connect(process.env.MONGO_URI, {
+  useNewUrlParser: true,
+  useUnifiedTopology: true,
+})
+.then(() => {
+  console.log("✅ MongoDB connected successfully");
+  app.listen(PORT, () => console.log(`🚀 Server running on port ${PORT}`));
+})
+.catch((err) => {
+  console.error("❌ MongoDB connection error:", err);
+});
