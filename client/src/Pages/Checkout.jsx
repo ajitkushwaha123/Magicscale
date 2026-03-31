@@ -275,7 +275,7 @@
 // import { motion } from "framer-motion";
 
 // // const API_BASE = "https://magicscale-backend.onrender.com";
-// const API_BASE = "http://localhost:5000"; // or your actual backend port
+// const API_BASE = "http://localhost:5001"; // or your actual backend port
 
 
 // const discountMap = { 1: 10, 3: 25, 6: 30, 12: 40 };
@@ -512,32 +512,6 @@
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 // import React, { useState, useEffect } from "react";
 // import { useParams, useLocation } from "react-router-dom";
 // import { FaCheckCircle } from "react-icons/fa";
@@ -546,7 +520,7 @@
 // // const API_BASE = "https://magicscale.in";
 // const API_BASE = "https://magicscale-backend.onrender.com";
 
-// // const API_BASE = "http://localhost:5000";  // or your actual backend port
+// // const API_BASE = "http://localhost:5001";  // or your actual backend port
 
 // const discountMap = { 1: 10, 3: 25, 6: 30, 12: 40 };
 
@@ -2648,6 +2622,4 @@ const Checkout = () => {
 };
 
 export default Checkout;
-
-
 
